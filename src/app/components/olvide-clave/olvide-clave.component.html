@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="container text-center mt-5">
+        <h4>Recuperar contraseña</h4>
+    </div>
+</div>                
+<div class="modal-body">
+    <form (ngSubmit) = "formContrasena" #formContrasena = "ngForm">
+        <div class="form-group py-1">
+            <input type="email" name="email" email class="form-control" placeholder="Digite aqui su correo electrónico" required>
+        </div>
+        <button type="submit" class="btn btn-danger mt-3 w-100">
+            <span style="font-size: 20px;"> Enviar</span>
+        </button>
+    </form>                          
+</div>
+
+

@@ -15,7 +15,6 @@ export class RegistroComponent implements OnInit {
 
   usuario= new UsuarioModel();
   usuarioConsulta: UsuarioModel[]=[];
-  resp: any;
 
   cargando= false;
 

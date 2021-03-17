@@ -23,6 +23,7 @@ import { RondaComponent } from './components/ronda/ronda.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { OlvideClaveComponent } from './components/olvide-clave/olvide-clave.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     RondaComponent,
     AdminComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    OlvideClaveComponent
   ],
   imports: [
     BrowserModule,

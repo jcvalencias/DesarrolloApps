@@ -10,6 +10,7 @@ import * as firebase from 'firebase';
 import { map, delay, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -86,23 +87,34 @@ export class AuthService {
     //console.log(this.datos);     
   }
 
-  signIn(email: string, password: string){
-    this.afauth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL)
+  signIn(dato: UsuarioModel){
+    const userTemporal1 ={
+      email: dato.email,
+      password: dato.password,
+    }
+    return this.afauth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL)
     .then(()=>{      
-      this.afauth.signInWithEmailAndPassword(email, password).then((data)=>{
-        console.log("Validando", data);
-        
-        /* if(!data.user.emailVerified){
-          this.afauth.signOut();
-        }else{ */
-          /* if(data.user.email == 'julios116@gmail.com'){
-            this.router.navigateByUrl('/home');
-            console.log("Deberia ir al home");   
-          }else{
-            this.router.navigateByUrl('/register');
-            console.log("Deberia ir al register");
-          } */
-        //}
+      this.afauth.signInWithEmailAndPassword( userTemporal1.email,  userTemporal1.password).then((userCredential)=>{
+        console.log("Validando",userCredential.user);
+        let abc = userCredential.user?.email;
+        let idtoken:any = userCredential.user?.refreshToken;
+        if(userCredential.user?.emailVerified === false){
+          
+          Swal.fire({
+            title: 'Error', 
+            text: 'Este email aun no ha sido verificado! revise la bandeja de entrada de su correo electrónico',
+            icon:"warning"
+          });
+        }else{
+          console.log(idtoken);
+          this.guardarToken(idtoken);
+          Swal.fire({
+            title: 'Bienvenido', 
+            text: `${abc}`,
+            icon:"warning"
+          });
+          this.router.navigateByUrl('/admin');
+        }
       })
       .catch(error=>{
           console.log("error", error);
@@ -112,6 +124,30 @@ export class AuthService {
       console.log("error", error);
       
     })
+  }
+
+  private guardarToken(idToken: string){
+    this.userToken = idToken;
+    console.log(this.userToken);
+    
+    localStorage.setItem('token', idToken);
+    let hoy = new Date();
+    hoy.setSeconds(3600);
+    localStorage.setItem('expira', hoy.getTime().toString());
+  }
+  estaAutenticado():boolean{
+    if(this.userToken.length<2){
+      return false;
+    }
+    const expira=Number(localStorage.getItem('expira'));
+    const expiraDate = new Date();
+    expiraDate.setTime(expira);
+
+    if(expiraDate > new Date()){
+      return true;
+    }else{
+      return false;
+    }
   }
 
 
