@@ -1,0 +1,22 @@
+.contenedor{
+    margin-bottom: 10px;
+}
+
+.etiqueta{
+    font-weight: bold !important;
+    border-style: none !important;
+}
+
+.obligatorio{
+    margin-left: 5px;
+    color: red !important;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.info{
+    font-size: 12px;
+    text-decoration: none;
+    float: right;
+    font-family: 'Segoe UI';
+}
