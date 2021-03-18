@@ -1,1 +1,87 @@
-<p>ronda works!</p>
+<div class="container p-3 logged-in divRondaVisible" >
+    <div class="row">
+        <div class="col-md-4 offset-md-4 "   >
+            <div class="card">
+                <div class="card-body">
+                    <form id="task-form" class="rondaVisible">
+                        <div class="form-group my-1">
+                            <label class="etiqueta" >Producto:<a class="obligatorio">*</a></label>
+                        </div>
+                        <div class="form-group my-1 ">
+                            <select class="selectores w-100" name="Producto" required [(ngModel)]="ronda.Producto">
+                                <option selected disabled value="" >Seleccione una opcion...</option>
+                                <option *ngFor="let producto of productoLista" value="{{producto.Nombre}}">{{producto.Nombre}}</option>
+                            </select>
+                        </div>
+                        <hr class="hr">
+                        <div class="form-group my-1">
+                            <label class="etiqueta" >Cantidad:<a class="obligatorio">*</a></label>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="Cantidad" class="form-control" placeholder="Cantidad de producto" required [(ngModel)]="ronda.Cantidad">
+                        </div>
+                        <hr class="hr">
+                        <div class="form-group my-1">
+                            <label class="etiqueta" >Precio ($ / Kg):<a class="obligatorio">*</a></label>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="Precio" class="form-control" placeholder="Precio por kilo del producto" required [(ngModel)]="ronda.Precio">
+                        </div>
+                        <hr class="hr">
+                        <div class="form-group my-1">
+                            <label class="etiqueta" >Peso promedio (Kg/Animal o Canal):<a class="obligatorio">*</a></label>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="Peso"  min ="70" max ="130" step=".1" class="form-control" placeholder="Peso promedio del producto" required [(ngModel)]="ronda.Peso">
+                        </div>
+                        <hr class="hr">
+                        <div class="form-group my-1">
+                            <label class="etiqueta" >Ubicación mercado:<a class="obligatorio">*</a></label>
+                        </div>
+                        <div class="form-group my-1">
+                            <select class="selectores w-100" name="Mercado" required [(ngModel)]="ronda.Mercado">
+                                <option selected disabled value="" >Seleccione una opcion...</option>
+                                <option *ngFor="let mercado of mercadoLista" value="{{mercado.Nombre}}">{{mercado.Nombre}}</option>
+                            </select>
+                        </div>
+                        <hr class="hr">
+                        <div class="form-group my-1">
+                            <label class="etiqueta" >Lugar de entrega:<a class="obligatorio">*</a></label>
+                        </div>
+                        <div class="form-group my-1">
+                            <select class="selectores w-100" name="Entrega" required [(ngModel)]="ronda.Entrega">
+                                <option selected disabled value="" >Seleccione una opcion...</option>
+                                <option *ngFor="let entrega of entregaLista" value="{{entrega.Lugar}}">{{entrega.Lugar}}</option>
+                            </select>
+                        </div>
+                        <hr class="hr">
+                        <div class="form-group my-1">
+                            <label class="etiqueta" >Comentarios:</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="Comentario" class="form-control" placeholder="Comentario" [(ngModel)]="ronda.Comentario">
+                        </div>
+                        <hr class="hr">
+                        <div class="form-group my-1">
+                            <label class="etiqueta" >Desea agregar otra operacion:<a class="obligatorio">*</a></label>
+                        </div>
+                        <div class="form-group my-1 ">
+                            <select class="selectores w-100" name="enviar" required [(ngModel)]="desicion">
+                                <option selected disabled value="" >Seleccione una opcion...</option>
+                                <option value="Si">Si</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <hr class="hr">
+                        <div >
+                            <button type="submit" class="btn btn-danger mt-3 w-100">
+                                <span style="font-size: 20px;font-weight: bold;"> Enviar</span>
+                            </button>
+                        </div>  
+                            
+                    </form>            
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -14,7 +14,6 @@ import Swal from 'sweetalert2';
 export class AccesoComponent implements OnInit {
 
   usuario= new UsuarioModel();
-  usuarioConsulta: UsuarioModel[]=[];
 
   constructor(
     private auth: AuthService,
@@ -35,11 +34,8 @@ export class AccesoComponent implements OnInit {
     });
     Swal.showLoading();
     this.auth.signIn(this.usuario).then(resp=>{
-      console.log('respuesta', resp);
-      Swal.close();      
-      
+      Swal.close();         
     })    
-
   }
 
 }

@@ -23,13 +23,9 @@
             <div class="form-group py-1">
                 <label class="etiqueta" >Localización<a class="obligatorio">*</a></label>
                 
-                    <select class="selectores_reg" name="localizacion" style="width: 100%;" required [(ngModel)] = "usuario.localizacion">
+                    <select class="selectores_reg" name="Localizacion" style="width: 100%;" required [(ngModel)] = "usuario.Localizacion">
                         <option selected disabled value="" >Seleccione una ubicación...</option>
-                        <option value="Antioquia">Antioquia</option>
-                        <option value="Eje Cafetero">Eje Cafetero</option>
-                        <option value="Valle del Cauca">Valle del Cauca</option>
-                        <option value="Costa Atlántica">Costa Atlántica</option>
-                        <option value="Bogotá">Bogotá</option>
+                        <option *ngFor="let item of mercadoLista " value="{{item.Nombre}}">{{item.Nombre}}</option>
                     </select>                            
             </div>
             <div class="form-group py-1">
@@ -48,7 +44,9 @@
                 </label>
             </div>
             <div >
-                <button type="submit" class="btn btn-danger mt-3 w-100">Registrarse</button>
+                <button type="submit" class="btn btn-danger mt-3 w-100">
+                    <span style="font-size: 20px;"> Registrarse</span>
+                </button>
             </div> 
             <div>
                 <a routerLink="/acceso" class="txt1">

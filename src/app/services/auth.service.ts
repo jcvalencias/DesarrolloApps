@@ -24,7 +24,10 @@ export class AuthService {
   userToken: any;  
   usuario$: any;
   user: any;
-  datos : any= [];
+  listaUser : any = [];
+  listaMercados : any = [];
+  listaProducto : any = [];
+  listaEntrega : any = [];
 
   constructor(
     private http: HttpClient,
@@ -42,78 +45,107 @@ export class AuthService {
         }
       })
     )
+    this.estaAutenticado();
+    this.getProducto();
+    this.getEntrega();
     this.getUser();
+    this.getLocalizacion();
   }
 
-  async crear(dato: UsuarioModel){
-    const userTemporal ={
-      email: dato.email,
-      password: dato.password,
-    }
-    
-    return await this.afauth.createUserWithEmailAndPassword(userTemporal.email,userTemporal.password).then(userCredential =>{
-      console.log('user', userCredential);
+  async crear(dato: UsuarioModel){  
+    return await this.afauth.createUserWithEmailAndPassword(dato.email,dato.password).then(userCredential =>{
+      let uid: any = userCredential.user?.uid;
       userCredential.user?.sendEmailVerification();
-      this.crearUser(dato);
+      this.crearUser(dato, uid);
     })    
   }
 
-  crearUser(datos: UsuarioModel){
+  crearUser(datos: UsuarioModel, uid: string ){
     const userTemp1={
       nombre : datos.nombre,
       apellido : datos.apellido,
       telefono: datos.telefono,
       granja: datos.granja,
       email: datos.email,
-      localizacion : datos.localizacion,
-      codigo : datos.codigo,
-      estado: datos.estado
-    }
-    
-    return this.afs.collection('Usuarios').doc().set(userTemp1).then(resp=>{
-      console.log(resp);
-      
+      Localizacion : datos.Localizacion,
+      CodigoMostrar : datos.CodigoMostrar,
+      estado: datos.estado,
+      IdCodigo: uid
+    }    
+    return this.afs.collection('Usuarios').doc().set(userTemp1).then(resp=>{ })
+  }
+
+  recuperarContrasena(usuario: UsuarioModel){
+    return this.afauth.sendPasswordResetEmail(usuario.email).then(resp=>{
+      Swal.fire({
+        title: 'Atencion', 
+        text: 'Revise la bandeja de entrada de su correo electrónico para continuar',
+        icon:"success"
+      });
+      this.router.navigateByUrl('/acceso');
     })
   }
 
   getUser(){        
     this.afs.collection('Usuarios').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{
-        //console.log(i.data());
-        this.datos.push(i.data());        
-        return this.datos;
+        this.listaUser.push(i.data());        
+        return this.listaUser;
       })       
-    })
-    //console.log(this.datos);     
+    })   
+  }
+
+  getLocalizacion(){        
+    this.afs.collection('Mercados').get().forEach((element) => {
+      (element.docs).forEach((i:any)=>{
+        this.listaMercados.push(i.data());        
+        return this.listaMercados;
+      })       
+    })        
+  }
+
+  getProducto(){        
+    this.afs.collection('Productos').get().forEach((element) => {
+      (element.docs).forEach((i:any)=>{
+        this.listaProducto.push(i.data());        
+        return this.listaProducto;
+      })       
+    })           
+  }
+
+  getEntrega(){        
+    this.afs.collection('Entrega').get().forEach((element) => {
+      (element.docs).forEach((i:any)=>{
+        this.listaEntrega.push(i.data());        
+        return this.listaEntrega;
+      })       
+    })           
   }
 
   signIn(dato: UsuarioModel){
-    const userTemporal1 ={
-      email: dato.email,
-      password: dato.password,
-    }
     return this.afauth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL)
     .then(()=>{      
-      this.afauth.signInWithEmailAndPassword( userTemporal1.email,  userTemporal1.password).then((userCredential)=>{
-        console.log("Validando",userCredential.user);
+      this.afauth.signInWithEmailAndPassword( dato.email, dato.password).then((userCredential)=>{        
         let abc = userCredential.user?.email;
         let idtoken:any = userCredential.user?.refreshToken;
-        if(userCredential.user?.emailVerified === false){
-          
+        if(userCredential.user?.emailVerified === false){          
           Swal.fire({
             title: 'Error', 
             text: 'Este email aun no ha sido verificado! revise la bandeja de entrada de su correo electrónico',
             icon:"warning"
           });
         }else{
-          console.log(idtoken);
           this.guardarToken(idtoken);
           Swal.fire({
             title: 'Bienvenido', 
             text: `${abc}`,
             icon:"warning"
           });
-          this.router.navigateByUrl('/admin');
+          if(userCredential.user?.uid == 'GMKCSg38KnOgzcbW2aB52Tzb3bp1'){
+            this.router.navigateByUrl('/admin');
+          }else{
+            this.router.navigateByUrl(`/ronda/${userCredential.user?.uid}`);
+          }          
         }
       })
       .catch(error=>{
@@ -121,28 +153,26 @@ export class AuthService {
       })
     })
     .catch(error=>{
-      console.log("error", error);
-      
+      console.log("error", error);      
     })
   }
 
   private guardarToken(idToken: string){
-    this.userToken = idToken;
-    console.log(this.userToken);
-    
+    this.userToken = idToken;    
     localStorage.setItem('token', idToken);
     let hoy = new Date();
     hoy.setSeconds(3600);
     localStorage.setItem('expira', hoy.getTime().toString());
   }
+
   estaAutenticado():boolean{
+    this.userToken= localStorage.getItem('token');
     if(this.userToken.length<2){
-      return false;
+      return false;      
     }
     const expira=Number(localStorage.getItem('expira'));
     const expiraDate = new Date();
     expiraDate.setTime(expira);
-
     if(expiraDate > new Date()){
       return true;
     }else{

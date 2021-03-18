@@ -6,8 +6,9 @@ export class UsuarioModel{
     email: string = '';
     telefono: string = '';
     granja: string = '';
-    localizacion: string ='';
+    Localizacion: string ='';
     password: string = '';
-    codigo: string = '';
+    CodigoMostrar: string = '';
     estado= 'Activo';
+    IdUsuario: string = '';
 }

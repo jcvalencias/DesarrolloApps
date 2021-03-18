@@ -15,8 +15,8 @@ const routes: Routes = [
   {path: 'registro', component: RegistroComponent},
   {path: 'acceso', component: AccesoComponent},
   {path: 'ayuda', component: AyudaComponent},
-  {path: 'ronda', component: RondaComponent, canActivate:[AuthGuard]},
-  {path: 'admin', component: AdminComponent,  canActivate:[AuthGuard] },
+  {path: 'ronda/:id', component: RondaComponent, canActivate:[AuthGuard]},
+  {path: 'admin', component: AdminComponent,  canActivate:[AuthGuard]},
   {path: 'olvideClave', component: OlvideClaveComponent},
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
