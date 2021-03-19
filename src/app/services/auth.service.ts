@@ -11,6 +11,7 @@ import { map, delay, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import Swal from 'sweetalert2';
+import { RondaModel } from '../models/ronda.model';
 
 @Injectable({
   providedIn: 'root'
@@ -122,6 +123,14 @@ export class AuthService {
     })           
   }
 
+logOut(){
+  return this.afauth.signOut().then(()=>{    
+    localStorage.clear(); 
+    Swal.fire("Atencion", "Gracias por participar", "success");   
+    this.router.navigateByUrl('/acceso');
+  })
+}
+
   signIn(dato: UsuarioModel){
     return this.afauth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL)
     .then(()=>{      
@@ -167,7 +176,7 @@ export class AuthService {
 
   estaAutenticado():boolean{
     this.userToken= localStorage.getItem('token');
-    if(this.userToken.length<2){
+    if(this.userToken == ''){
       return false;      
     }
     const expira=Number(localStorage.getItem('expira'));
@@ -178,6 +187,29 @@ export class AuthService {
     }else{
       return false;
     }
+  }
+
+  async setRonda(ronda: RondaModel){
+    return await this.afs.collection('RondaHistorica').doc().set({
+            Producto : ronda.Producto,
+            Cantidad : ronda.Cantidad,
+            Peso: ronda.Peso,
+            Precio: ronda.Precio,
+            Comentario: ronda.Comentario,
+            Mercado: ronda.Mercado,
+            Entrega: ronda.Entrega,
+            Usuario: ronda.Usuario,
+            Fecha: ronda.Fecha,
+            Año: ronda.Año,
+            Semana: ronda.Semana,
+            UltimoDia: ronda.UltimoDia,            
+    }).then(resp=>{
+      Swal.fire({
+        title: 'Buen trabajo', 
+        text: 'Registro creado exitosamente!!!',
+        icon:"success"
+      });
+    })
   }
 
 

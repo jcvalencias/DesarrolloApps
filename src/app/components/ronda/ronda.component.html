@@ -3,12 +3,14 @@
         <div class="col-md-4 offset-md-4 "   >
             <div class="card">
                 <div class="card-body">
-                    <form id="task-form" class="rondaVisible">
+                    <form (ngSubmit)= "enviarProducto(formRonda)" #formRonda ="ngForm">
                         <div class="form-group my-1">
                             <label class="etiqueta" >Producto:<a class="obligatorio">*</a></label>
                         </div>
+                        <span *ngIf="formRonda.submitted && formRonda.controls['Producto'].errors"
+                        class="text-danger">Es obligatorio seleccionar un producto</span>
                         <div class="form-group my-1 ">
-                            <select class="selectores w-100" name="Producto" required [(ngModel)]="ronda.Producto">
+                            <select class="selectores w-100" name="Producto" id="producto" required [(ngModel)]="ronda.Producto" placeholder="Seleccione una opcion...">
                                 <option selected disabled value="" >Seleccione una opcion...</option>
                                 <option *ngFor="let producto of productoLista" value="{{producto.Nombre}}">{{producto.Nombre}}</option>
                             </select>
@@ -17,13 +19,18 @@
                         <div class="form-group my-1">
                             <label class="etiqueta" >Cantidad:<a class="obligatorio">*</a></label>
                         </div>
+                        <span *ngIf="controlCantidad || formRonda.submitted && formRonda.controls['Cantidad'].errors"
+                        class="text-danger">La cantidad es obligatoria</span>
                         <div class="form-group">
                             <input type="number" name="Cantidad" class="form-control" placeholder="Cantidad de producto" required [(ngModel)]="ronda.Cantidad">
+                            <span class="focus-input100"></span>
                         </div>
-                        <hr class="hr">
+                        <hr class="hr">                        
                         <div class="form-group my-1">
                             <label class="etiqueta" >Precio ($ / Kg):<a class="obligatorio">*</a></label>
                         </div>
+                        <span *ngIf="controlPrecio || formRonda.submitted && formRonda.controls['Precio'].errors"
+                        class="text-danger">El precio es obligatorio</span>
                         <div class="form-group">
                             <input type="number" name="Precio" class="form-control" placeholder="Precio por kilo del producto" required [(ngModel)]="ronda.Precio">
                         </div>
@@ -31,15 +38,19 @@
                         <div class="form-group my-1">
                             <label class="etiqueta" >Peso promedio (Kg/Animal o Canal):<a class="obligatorio">*</a></label>
                         </div>
+                        <span *ngIf="controlPeso || formRonda.submitted && formRonda.controls['Peso'].errors"
+                        class="text-danger">El peso es obligatorio</span>
                         <div class="form-group">
-                            <input type="number" name="Peso"  min ="70" max ="130" step=".1" class="form-control" placeholder="Peso promedio del producto" required [(ngModel)]="ronda.Peso">
+                            <input type="number" name="Peso"   min ="70" max ="130" step=".1" class="form-control" placeholder="Peso promedio del producto" required [(ngModel)]="ronda.Peso">
                         </div>
                         <hr class="hr">
                         <div class="form-group my-1">
                             <label class="etiqueta" >Ubicación mercado:<a class="obligatorio">*</a></label>
                         </div>
+                        <span *ngIf="formRonda.submitted && formRonda.controls['Mercado'].errors"
+                        class="text-danger">Es obligatorio seleccionar un mercado</span>
                         <div class="form-group my-1">
-                            <select class="selectores w-100" name="Mercado" required [(ngModel)]="ronda.Mercado">
+                            <select class="selectores w-100" name="Mercado" required [(ngModel)]="ronda.Mercado" placeholder="Seleccione una opcion...">
                                 <option selected disabled value="" >Seleccione una opcion...</option>
                                 <option *ngFor="let mercado of mercadoLista" value="{{mercado.Nombre}}">{{mercado.Nombre}}</option>
                             </select>
@@ -48,8 +59,10 @@
                         <div class="form-group my-1">
                             <label class="etiqueta" >Lugar de entrega:<a class="obligatorio">*</a></label>
                         </div>
+                        <span *ngIf="formRonda.submitted && formRonda.controls['Entrega'].errors"
+                        class="text-danger">Es obligatorio seleccionar un lugar de entrega</span>
                         <div class="form-group my-1">
-                            <select class="selectores w-100" name="Entrega" required [(ngModel)]="ronda.Entrega">
+                            <select class="selectores w-100" name="Entrega" required [(ngModel)]="ronda.Entrega" placeholder="Seleccione una opcion...">
                                 <option selected disabled value="" >Seleccione una opcion...</option>
                                 <option *ngFor="let entrega of entregaLista" value="{{entrega.Lugar}}">{{entrega.Lugar}}</option>
                             </select>
@@ -65,8 +78,10 @@
                         <div class="form-group my-1">
                             <label class="etiqueta" >Desea agregar otra operacion:<a class="obligatorio">*</a></label>
                         </div>
+                        <span *ngIf="formRonda.submitted && formRonda.controls['enviar'].errors"
+                        class="text-danger">Es obligatorio seleccionar una opcion</span>
                         <div class="form-group my-1 ">
-                            <select class="selectores w-100" name="enviar" required [(ngModel)]="desicion">
+                            <select class="selectores w-100" name="enviar" required [(ngModel)]="desicion" placeholder="Seleccione una opcion...">
                                 <option selected disabled value="" >Seleccione una opcion...</option>
                                 <option value="Si">Si</option>
                                 <option value="No">No</option>
@@ -77,8 +92,7 @@
                             <button type="submit" class="btn btn-danger mt-3 w-100">
                                 <span style="font-size: 20px;font-weight: bold;"> Enviar</span>
                             </button>
-                        </div>  
-                            
+                        </div>                            
                     </form>            
                 </div>
             </div>

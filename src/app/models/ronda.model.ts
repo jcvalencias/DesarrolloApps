@@ -1,6 +1,7 @@
 export class RondaModel{
-    Año= new Date().getFullYear;
-    Fecha = (new Date().getMonth()+1) + "/" + (new Date().getDate()) + "/" + (new Date().getFullYear()) + " " + (new Date().getHours()) +":" + (new Date().getMinutes()) ;
+    Año= new Date().getFullYear();
+    //Fecha = (new Date().getMonth()+1) + "/" + (new Date().getDate()) + "/" + (new Date().getFullYear()) + " " + (new Date().getHours()) +":" + (new Date().getMinutes()) ;
+    Fecha : string = '';
     UltimoDia: string ='';
     Semana: string = '';
     Producto: string ='';
