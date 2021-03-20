@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MercadoModel } from 'src/app/models/mercado.model';
 import { UsuarioModel } from 'src/app/models/usuario.model';
@@ -19,10 +19,16 @@ export class RegistroComponent implements OnInit {
   mercadoLista: MercadoModel[]=[];
   cargando= false;
 
+  formRegistro:any= FormGroup;
+
   constructor(
     private auth: AuthService,
     private router: Router,
-  ) { }
+
+    private fb: FormBuilder,
+  ) {
+    this.crearFormulario();
+   }
 
   ngOnInit(){
     this.cargando=true;     
@@ -30,6 +36,58 @@ export class RegistroComponent implements OnInit {
     this.mercadoLista = this.auth.listaMercados;
     this.cargando = false;     
   }
+
+  campoNoValido(campo: string) {
+    return this.formRegistro.get(campo).invalid && this.formRegistro.get(campo).touched;
+  }
+
+  /* get nombreNoValido(){
+    return this.formRegistro.get('nombre').invalid && this.formRegistro.get('nombre').touched;
+  }
+  get apellidoNoValido(){
+    return this.formRegistro.get('apellido').invalid && this.formRegistro.get('apellido').touched;
+  }
+  get telefonoNoValido(){
+    return this.formRegistro.get('telefono').invalid && this.formRegistro.get('telefono').touched;
+  }
+  get granjaNoValido(){
+    return this.formRegistro.get('granja').invalid && this.formRegistro.get('granja').touched;
+  }
+  get localizacionNoValido(){
+    return this.formRegistro.get('localizacion').invalid && this.formRegistro.get('localizacion').touched;
+  }
+  get emailNoValido(){
+    return this.formRegistro.get('email').invalid && this.formRegistro.get('email').touched;
+  }
+  get passwordNoValido(){
+    return this.formRegistro.get('password').invalid && this.formRegistro.get('password').touched;
+  } */
+
+  crearFormulario(){
+    this.formRegistro = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(2)]],
+      apellido: ['',[Validators.required, Validators.minLength(2)]],
+      granja: ['',[Validators.required, Validators.minLength(2)]],
+      telefono: ['',[Validators.required, Validators.minLength(10)]],
+      password: ['',[Validators.required, Validators.minLength(6)]],
+      email: ['',[Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      estado: ['',],
+      localizacion: ['', Validators.required],
+      CodigoMostrar: [''],    
+      IdUsuario: ['']
+    })
+  }
+
+  guardar(){
+    if(this.formRegistro.invalid){
+     /*  Object.values(this.formRegistro.controls).forEach((control:any)=>{control.markAsTouched()}); */
+     this.formRegistro.markAllAsTouched();
+      return;
+    }
+  }
+
+
+
 
   crearUsuario(form: NgForm){
     if(form.invalid){

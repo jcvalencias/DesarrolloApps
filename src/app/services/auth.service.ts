@@ -123,13 +123,13 @@ export class AuthService {
     })           
   }
 
-logOut(){
-  return this.afauth.signOut().then(()=>{    
-    localStorage.clear(); 
-    Swal.fire("Atencion", "Gracias por participar", "success");   
-    this.router.navigateByUrl('/acceso');
-  })
-}
+  logOut(){
+    return this.afauth.signOut().then(()=>{    
+      localStorage.clear(); 
+      Swal.fire("Atencion", "Gracias por participar", "success");   
+      this.router.navigateByUrl('/acceso');
+    })
+  }
 
   signIn(dato: UsuarioModel){
     return this.afauth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL)

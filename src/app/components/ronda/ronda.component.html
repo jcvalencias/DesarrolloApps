@@ -72,7 +72,7 @@
                             <label class="etiqueta" >Comentarios:</label>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="Comentario" class="form-control" placeholder="Comentario" [(ngModel)]="ronda.Comentario">
+                            <input type="text" name="Comentario" class="form-control" placeholder="Comentario" (ngModel)="ronda.Comentario">
                         </div>
                         <hr class="hr">
                         <div class="form-group my-1">
@@ -81,7 +81,7 @@
                         <span *ngIf="formRonda.submitted && formRonda.controls['enviar'].errors"
                         class="text-danger">Es obligatorio seleccionar una opcion</span>
                         <div class="form-group my-1 ">
-                            <select class="selectores w-100" name="enviar" required [(ngModel)]="desicion" placeholder="Seleccione una opcion...">
+                            <select class="selectores w-100" name="enviar" required [(ngModel)]="ronda.desicion" placeholder="Seleccione una opcion...">
                                 <option selected disabled value="" >Seleccione una opcion...</option>
                                 <option value="Si">Si</option>
                                 <option value="No">No</option>

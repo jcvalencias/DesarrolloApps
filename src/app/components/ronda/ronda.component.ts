@@ -37,6 +37,7 @@ export class RondaComponent implements OnInit{
   controlCantidad : boolean = false;
   controlPeso : boolean= false;
   controlPrecio : boolean= false;
+  id : any;
 
   constructor(
     private auth: AuthService,
@@ -59,14 +60,23 @@ export class RondaComponent implements OnInit{
       sed_id: [''],
       pai_id: [''],
     }); */
+    /* Object.values(form.controls).forEach(control =>{
+      control.markAsTouched();
+    }); */
 
-    const id = this.route.snapshot.paramMap.get('id');
-    this.productoLista = this.auth.listaProducto;    
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.cargarDatos();
+              
+  }
+
+  cargarDatos(){
+    this.productoLista = this.auth.listaProducto; 
+    //this.productoLista.unshift({Nombre:'Seleccione un producto', id:''})   
     this.usuarioLista = this.auth.listaUser; 
     this.mercadoLista = this.auth.listaMercados;
     this.entregaLista = this.auth.listaEntrega;
     for(let user of this.usuarioLista){  
-      if(id == user.IdUsuario){
+      if(this.id == user.IdUsuario){
         localStorage.setItem('codigo', user.CodigoMostrar);
       }
     }
@@ -91,10 +101,10 @@ export class RondaComponent implements OnInit{
     let fechas = new Date().getWeek();
     this.numeroSemana = fechas[1];
     this.finSemana = fechas[0].toLocaleString();
-    console.log(this.fecha);
     console.log(this.numeroSemana);
-    console.log(this.finSemana);          
+    console.log(this.finSemana);
   }
+
 
   enviarProducto(form: NgForm){ 
     const productoSel = document.getElementById('producto');
@@ -178,28 +188,27 @@ export class RondaComponent implements OnInit{
         Swal.showLoading(); 
         this.auth.setRonda(this.ronda).then(resp=>{
           Swal.close();
+          Swal.fire({
+            title: 'Buen trabajo', 
+            text: 'Registro creado exitosamente!!!',
+            icon:"success"
+          });
           if(form.controls.enviar.value == 'Si'){
                 console.log("Hola Si");   
-                //form.onReset();
-                //form.reset();
                 form.resetForm();
+                this.cargarDatos();
                 productoSel?.focus();
                 return;
               }else{
                 console.log("Hola No");
-                //this.auth.logOut();
-              }
-                  
+                form.resetForm();
+                this.auth.logOut();
+              }                  
         })    
       }else{
           return;
       }
-  });    
-
-
-    
-    
-      
+    });       
   }  
 
 }

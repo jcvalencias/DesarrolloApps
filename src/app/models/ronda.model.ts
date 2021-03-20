@@ -12,4 +12,5 @@ export class RondaModel{
     Comentario: string ='';
     Entrega: string= '';
     Usuario: string='';
+    desicion: string = '';
 }
