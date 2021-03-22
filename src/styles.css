@@ -1,6 +1,12 @@
 a{
     color: black !important;
 }
+
+button{
+    font-weight: bold !important;
+    border-radius: 10px !important;
+}
+
 .etiqueta{
     font-weight: bold !important;
     border-style: none !important;
@@ -26,7 +32,6 @@ a{
     border-radius: 5px;
     margin-left: 2px !important;    
 }
-
 
 .focus-input100 {
     position: absolute;
@@ -64,3 +69,25 @@ a{
     -o-transform: scale(1);
     transform: scale(1);
   }
+
+  .fieldcontent {
+    display: block;
+    width: 98%;
+    margin: 15px 10px;
+    padding-bottom: 50px;
+    /* padding-left: 0.75em;
+    padding-right: 0.75em; */
+    border-radius: 15px;
+    border: solid 0.005rem rgb(167,167,167);
+}
+
+.fieldcontentTitle{
+    color: black;
+    padding: 10px 5px;
+    width: auto;
+    margin-left: 10px;
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+}

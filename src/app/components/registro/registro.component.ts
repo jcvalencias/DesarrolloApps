@@ -18,13 +18,11 @@ export class RegistroComponent implements OnInit {
   usuarioLista: UsuarioModel[]=[];
   mercadoLista: MercadoModel[]=[];
   cargando= false;
-
   formRegistro:any= FormGroup;
 
   constructor(
     private auth: AuthService,
     private router: Router,
-
     private fb: FormBuilder,
   ) {
     this.crearFormulario();
@@ -41,56 +39,34 @@ export class RegistroComponent implements OnInit {
     return this.formRegistro.get(campo).invalid && this.formRegistro.get(campo).touched;
   }
 
-  /* get nombreNoValido(){
-    return this.formRegistro.get('nombre').invalid && this.formRegistro.get('nombre').touched;
-  }
-  get apellidoNoValido(){
-    return this.formRegistro.get('apellido').invalid && this.formRegistro.get('apellido').touched;
-  }
-  get telefonoNoValido(){
-    return this.formRegistro.get('telefono').invalid && this.formRegistro.get('telefono').touched;
-  }
-  get granjaNoValido(){
-    return this.formRegistro.get('granja').invalid && this.formRegistro.get('granja').touched;
-  }
-  get localizacionNoValido(){
-    return this.formRegistro.get('localizacion').invalid && this.formRegistro.get('localizacion').touched;
-  }
-  get emailNoValido(){
-    return this.formRegistro.get('email').invalid && this.formRegistro.get('email').touched;
-  }
-  get passwordNoValido(){
-    return this.formRegistro.get('password').invalid && this.formRegistro.get('password').touched;
-  } */
-
   crearFormulario(){
     this.formRegistro = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]],
       apellido: ['',[Validators.required, Validators.minLength(2)]],
       granja: ['',[Validators.required, Validators.minLength(2)]],
-      telefono: ['',[Validators.required, Validators.minLength(10)]],
+      celular: ['',[Validators.required, Validators.minLength(10)]],
       password: ['',[Validators.required, Validators.minLength(6)]],
       email: ['',[Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      estado: ['',],
+      //estado: ['',],
       localizacion: ['', Validators.required],
-      CodigoMostrar: [''],    
-      IdUsuario: ['']
+      /* CodigoMostrar: [''],    
+      IdUsuario: [''] */
     })
   }
 
   guardar(){
     if(this.formRegistro.invalid){
-     /*  Object.values(this.formRegistro.controls).forEach((control:any)=>{control.markAsTouched()}); */
-     this.formRegistro.markAllAsTouched();
+      this.formRegistro.markAllAsTouched();
       return;
     }
+    this.formRegistro.reset({
+      localizacion: '',
+    })
+    this.crearUsuario();
   }
 
-
-
-
-  crearUsuario(form: NgForm){
-    if(form.invalid){
+  crearUsuario(){
+    if(this.formRegistro.invalid){
       return;
     }
     Swal.fire({ 
@@ -103,10 +79,17 @@ export class RegistroComponent implements OnInit {
     let listaCodigos=[];
     let indexCodigo;
     let numCodigo;
-    let aux: boolean = true;    
+    let aux: boolean = true;  
+    this.usuario.Nombre = this.formRegistro.controls.nombre.value;
+    this.usuario.Apellido = this.formRegistro.controls.apellido.value;
+    this.usuario.Granja = this.formRegistro.controls.granja.value;
+    this.usuario.Localizacion = this.formRegistro.controls.localizacion.value;
+    this.usuario.Celular = this.formRegistro.controls.celular.value;
+    this.usuario.Email = this.formRegistro.controls.email.value;
+    this.usuario.Password = this.formRegistro.controls.password.value;
     if(this.usuarioLista.length){      
       for (let user of this.usuarioLista) {               
-        if(user.Localizacion == form.controls.Localizacion.value){                    
+        if(user.Localizacion == this.formRegistro.controls.localizacion.value){                    
           listaCodigos.push(user.CodigoMostrar);
           aux = false;                    
         }      
@@ -117,16 +100,14 @@ export class RegistroComponent implements OnInit {
       numCodigo = parseInt(listaCodigos[indexCodigo].slice(-3))+1;            
       codigoAlmacenado = (listaCodigos[indexCodigo].slice(0,3)) + numCodigo.toString().padStart(3,'0') ;
     }else{
-      codigoAlmacenado = (form.controls.Localizacion.value).slice(0,3) + '001';
+      codigoAlmacenado = (this.formRegistro.controls.localizacion.value).slice(0,3) + '001';
     }   
     this.usuario.CodigoMostrar = codigoAlmacenado;     
     this.auth.crear(this.usuario).then(resp=>{
       console.log('respuesta', resp);
-      Swal.close();
-      
+      Swal.close();      
       this.router.navigateByUrl('/acceso');
-    })    
- 
+    })     
 
     /* Swal.fire({ 
       allowOutsideClick: false,

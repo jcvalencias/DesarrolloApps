@@ -26,9 +26,12 @@ export class AuthService {
   usuario$: any;
   user: any;
   listaUser : any = [];
+  listaIdUser : any=[];
   listaMercados : any = [];
   listaProducto : any = [];
   listaEntrega : any = [];
+  listaRonda: any = [];
+  estadoRonda: any = [];
 
   constructor(
     private http: HttpClient,
@@ -51,33 +54,37 @@ export class AuthService {
     this.getEntrega();
     this.getUser();
     this.getLocalizacion();
+    this.getRonda();
   }
 
   async crear(dato: UsuarioModel){  
-    return await this.afauth.createUserWithEmailAndPassword(dato.email,dato.password).then(userCredential =>{
+    return await this.afauth.createUserWithEmailAndPassword(dato.Email,dato.Password).then(userCredential =>{
       let uid: any = userCredential.user?.uid;
       userCredential.user?.sendEmailVerification();
       this.crearUser(dato, uid);
     })    
   }
 
-  crearUser(datos: UsuarioModel, uid: string ){
+  async crearUser(datos: UsuarioModel, uid: string ){
     const userTemp1={
-      nombre : datos.nombre,
-      apellido : datos.apellido,
-      telefono: datos.telefono,
-      granja: datos.granja,
-      email: datos.email,
+      Nombre : datos.Nombre,
+      Apellido : datos.Apellido,
+      Celular: datos.Celular,
+      Granja: datos.Granja,
+      Email: datos.Email,
       Localizacion : datos.Localizacion,
       CodigoMostrar : datos.CodigoMostrar,
-      estado: datos.estado,
-      IdCodigo: uid
+      Estado: datos.Estado,
+      IdCodigo: uid,
+      Participa : false,
     }    
-    return this.afs.collection('Usuarios').doc().set(userTemp1).then(resp=>{ })
+    return await this.afs.collection('Usuarios').doc().set(userTemp1).then(resp=>{
+      
+     })
   }
 
   recuperarContrasena(usuario: UsuarioModel){
-    return this.afauth.sendPasswordResetEmail(usuario.email).then(resp=>{
+    return this.afauth.sendPasswordResetEmail(usuario.Email).then(resp=>{
       Swal.fire({
         title: 'Atencion', 
         text: 'Revise la bandeja de entrada de su correo electrónico para continuar',
@@ -87,10 +94,32 @@ export class AuthService {
     })
   }
 
-  getUser(){        
-    this.afs.collection('Usuarios').get().forEach((element) => {
+  async setUserParicipa(user: UsuarioModel,id: string){    
+    const participa={
+      Nombre : user.Nombre,
+      Apellido : user.Apellido,
+      Celular: user.Celular,
+      Granja: user.Granja,
+      Email: user.Email,
+      Localizacion : user.Localizacion,
+      CodigoMostrar : user.CodigoMostrar,
+      Estado: user.Estado,
+      IdCodigo: user.IdUsuario,
+      Participa : true,
+    }   
+    return await this.afs.collection('Usuarios').doc(id).set(participa).then(resp=>{
+      console.log('ok');
+      
+     })
+  }
+
+  async getUser(){        
+    return await this.afs.collection('Usuarios').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{
-        this.listaUser.push(i.data());        
+        this.listaUser.push(i.data());
+        this.listaIdUser.push(i.id)
+        //console.log(i.id); 
+       //console.log(this.listaUser);
         return this.listaUser;
       })       
     })   
@@ -131,10 +160,10 @@ export class AuthService {
     })
   }
 
-  signIn(dato: UsuarioModel){
+  signIn(dato: UsuarioModel){    
     return this.afauth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL)
     .then(()=>{      
-      this.afauth.signInWithEmailAndPassword( dato.email, dato.password).then((userCredential)=>{        
+      this.afauth.signInWithEmailAndPassword( dato.Email, dato.Password).then((userCredential)=>{        
         let abc = userCredential.user?.email;
         let idtoken:any = userCredential.user?.refreshToken;
         if(userCredential.user?.emailVerified === false){          
@@ -200,7 +229,7 @@ export class AuthService {
             Entrega: ronda.Entrega,
             Usuario: ronda.Usuario,
             Fecha: ronda.Fecha,
-            Año: ronda.Año,
+            Year: ronda.Year,
             Semana: ronda.Semana,
             UltimoDia: ronda.UltimoDia,            
     }).then(resp=>{
@@ -210,6 +239,28 @@ export class AuthService {
         icon:"success"
       });
     })
+  }
+
+  getEstadoRonda(){
+    return this.afs.collection('Estado').get().forEach((element) => {
+      (element.docs).forEach((i:any)=>{      
+        this.estadoRonda=i.data().Estado;        
+        return this.estadoRonda;
+      })       
+    })  
+  }
+
+  setEstadoRonda(estado:string){
+    this.afs.collection('Estado').doc('1').set({Estado:estado, id:'1'});
+  }
+
+  getRonda(){
+    return this.afs.collection('RondaHistorica').get().forEach((element) => {
+      (element.docs).forEach((i:any)=>{              
+        this.listaRonda.push(i.data()); 
+        return this.listaRonda;
+      })       
+    })  
   }
 
 

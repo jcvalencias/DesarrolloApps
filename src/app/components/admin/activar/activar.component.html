@@ -1,0 +1,7 @@
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Activar/ Desactivar Ronda</legend>
+    <div class="container my-1 py-2"> 
+        <button *ngIf="estadoActual == 'Activo'" type="button" class="form-control btn btn-danger mt-2" (click)="activaRonda()">Inactivar</button>
+        <button *ngIf="estadoActual != 'Activo'" type="button" class="form-control btn btn-danger mt-2" (click)="activaRonda()">Activar</button>
+    </div>
+</fieldset>

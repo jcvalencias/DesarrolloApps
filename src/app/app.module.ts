@@ -24,6 +24,11 @@ import { AdminComponent } from './components/admin/admin.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { OlvideClaveComponent } from './components/olvide-clave/olvide-clave.component';
+import { ActivarComponent } from './components/admin/activar/activar.component';
+import { ParticipacionComponent } from './components/admin/participacion/participacion.component';
+import { GraficosComponent } from './components/admin/graficos/graficos.component';
+import { DescargasComponent } from './components/admin/descargas/descargas.component';
+import { ConsultarComponent } from './components/admin/consultar/consultar.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,12 @@ import { OlvideClaveComponent } from './components/olvide-clave/olvide-clave.com
     AdminComponent,
     HomeComponent,
     NavbarComponent,
-    OlvideClaveComponent
+    OlvideClaveComponent,
+    ActivarComponent,
+    ParticipacionComponent,
+    GraficosComponent,
+    DescargasComponent,
+    ConsultarComponent
   ],
   imports: [
     BrowserModule,

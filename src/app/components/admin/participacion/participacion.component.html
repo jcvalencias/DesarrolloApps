@@ -1,0 +1,30 @@
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Participación</legend>
+    <span class="userRonda">Han participado: {{participantes}} de: {{totalUsuarios}} usuarios registrados.</span>
+    <br>
+    <span class="userRonda">Lista de usuarios sin participar</span>
+    <span class="btn btn-primary mx-2 export" onclick="userToExcel('testTable5','Usuarios sin participar')">
+        <i class="fas fa-download" style="margin-right: 20px;"></i>Descargar
+    </span>
+    <div class="container">
+    <!-- tabla usuarios que no han participado -->
+        <table class="table" id="testTable5" style="font-size: 12px;border:2;" summary="Code page support in different versions of MS Windows." rules="groups" frame="hsides" >
+            <thead>
+                <tr>                                    
+                    <th style="width: 40px;">Codigo</th>                                    
+                    <th style="width: 60px;">Celular</th>
+                    <th style="width: 100px;">Nombre</th>
+                    <th style="width: 80px;">Granja</th>                                
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of usuarioLista">
+                    <td *ngIf="!user.Participa && user.Estado== 'Activo'" >{{user.CodigoMostrar}}</td>
+                    <td *ngIf="!user.Participa && user.Estado== 'Activo'">{{user.Celular}}</td>
+                    <td *ngIf="!user.Participa && user.Estado== 'Activo'">{{user.Nombre}}</td>
+                    <td *ngIf="!user.Participa && user.Estado== 'Activo'">{{user.Granja}}</td>
+                </tr>                                
+            </tbody>
+        </table>
+    </div>
+</fieldset>

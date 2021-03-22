@@ -1,14 +1,15 @@
 
 export class UsuarioModel{
     id: any = '';
-    nombre: string = '';
-    apellido: string = '';
-    email: string = '';
-    telefono: string = '';
-    granja: string = '';
+    Nombre: string = '';
+    Apellido: string = '';
+    Email: string = '';
+    Celular: string = '';
+    Granja: string = '';
     Localizacion: string ='';
-    password: string = '';
+    Password: string = '';
     CodigoMostrar: string = '';
-    estado= 'Activo';
+    Estado= 'Activo';
     IdUsuario: string = '';
+    Participa: boolean= false;
 }
