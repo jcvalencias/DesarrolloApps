@@ -10,11 +10,7 @@ import { UsuarioModel } from 'src/app/models/usuario.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 import Swal from 'sweetalert2';
-declare global {
-  interface Date {
-      getWeek (start?: Date) : [Date, Number]
-  }
-}
+
 @Component({
   selector: 'app-ronda',
   templateUrl: './ronda.component.html',
@@ -60,7 +56,9 @@ export class RondaComponent implements OnInit{
     this.productoLista = this.auth.listaProducto;  
     this.usuarioLista = this.auth.listaUser; 
     this.mercadoLista = this.auth.listaMercados;
-    this.entregaLista = this.auth.listaEntrega;    
+    this.entregaLista = this.auth.listaEntrega;
+    this.numeroSemana = this.auth.numeroSemana; 
+    this.finSemana = this.auth.finSemana;   
     console.log(this.usuarioLista);
     let i = 0
     for(let user of this.usuarioLista){        
@@ -77,23 +75,6 @@ export class RondaComponent implements OnInit{
     }
     this.codigo = localStorage.getItem('codigo');
     this.ronda.Usuario = this.codigo;
-    Date.prototype.getWeek = function(start: any){
-      var d: any = new Date(+this);  //Creamos un nuevo Date con la fecha de "this".
-      d.setHours(0, 0, 0, 0);   //Nos aseguramos de limpiar la hora.
-      d.setDate(d.getDate() + 4 - (d.getDay() || 7)); // Recorremos los días para asegurarnos de estar "dentro de la semana"         
-      start = start || 0;
-      var onejan: any = new Date(this.getFullYear(), 0, 1);
-      var week = Math.ceil((((d - onejan) / 86400000) + onejan.getDay() + 1) / 7);//Finalmente, calculamos redondeando y ajustando por la naturaleza de los números en JS:
-      var today = new Date(this.setHours(0, 0, 0, 0));
-      var day = today.getDay() - start;
-      var date = today.getDate() - day;
-      var StartDate = new Date(today.setDate(date));
-      var EndDate = new Date(today.setDate(date + 5));
-      return [EndDate, (week-1)];
-    }    
-    let fechas = new Date().getWeek();
-    this.numeroSemana = fechas[1];
-    this.finSemana = fechas[0].toLocaleString();
   }
 
   crearFormulario(){

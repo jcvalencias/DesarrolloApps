@@ -72,8 +72,8 @@ button{
 
   .fieldcontent {
     display: block;
-    width: 98%;
-    margin: 15px 10px;
+    width: 97%;
+    margin: 15px 5px;
     padding-bottom: 50px;
     /* padding-left: 0.75em;
     padding-right: 0.75em; */
@@ -91,3 +91,20 @@ button{
     text-transform: uppercase;
     font-weight: bold;
 }
+.btn-danger{    
+    background-color: rgb(240, 34, 82) !important;
+    font-weight:lighter !important;
+    font-size: 20px !important;
+}
+.btn-primary{    
+    background-color: rgb(4, 153, 253) !important;
+    font-weight:lighter !important;
+    font-size: 20px !important;
+}
+
+.export{
+    background-color:rgb(3, 110, 3) !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family:'Segoe UI', "Helvetica Neue", sans-serif; }

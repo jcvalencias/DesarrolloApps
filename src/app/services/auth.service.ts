@@ -13,6 +13,12 @@ import { Observable, of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { RondaModel } from '../models/ronda.model';
 
+declare global {
+  interface Date {
+      getWeek (start?: Date) : [Date, Number]
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,6 +38,15 @@ export class AuthService {
   listaEntrega : any = [];
   listaRonda: any = [];
   estadoRonda: any = [];
+  usuarioParticipa: any =[];
+  total= 0;
+  participantes = 0;
+  numeroSemana: any; 
+  finSemana: any;
+  years:any= [];
+  listaSemanas: any =[];
+
+  listaOtra: any = [];
 
   constructor(
     private http: HttpClient,
@@ -39,6 +54,7 @@ export class AuthService {
     private afauth: AngularFireAuth,
     private router: Router,
   ) {
+    //this.getUser();
     this.usuario$ = this.afauth.authState.pipe(
       switchMap( user => {
         console.log("user", user);
@@ -49,12 +65,33 @@ export class AuthService {
         }
       })
     )
+    
     this.estaAutenticado();
     this.getProducto();
-    this.getEntrega();
-    this.getUser();
-    this.getLocalizacion();
-    this.getRonda();
+    this.getEntrega();    
+    //this.getLocalizacion();
+    //this.getRonda();
+    this.generarFechas();
+  }
+
+  generarFechas(){
+    Date.prototype.getWeek = function(start: any){
+      var d: any = new Date(+this);  //Creamos un nuevo Date con la fecha de "this".
+      d.setHours(0, 0, 0, 0);   //Nos aseguramos de limpiar la hora.
+      d.setDate(d.getDate() + 4 - (d.getDay() || 7)); // Recorremos los días para asegurarnos de estar "dentro de la semana"         
+      start = start || 0;
+      var onejan: any = new Date(this.getFullYear(), 0, 1);
+      var week = Math.ceil((((d - onejan) / 86400000) + onejan.getDay() + 1) / 7);//Finalmente, calculamos redondeando y ajustando por la naturaleza de los números en JS:
+      var today = new Date(this.setHours(0, 0, 0, 0));
+      var day = today.getDay() - start;
+      var date = today.getDate() - day;
+      var StartDate = new Date(today.setDate(date));
+      var EndDate = new Date(today.setDate(date + 5));
+      return [EndDate, (week-1)];
+    }    
+    let fechas = new Date().getWeek();
+    this.numeroSemana = fechas[1];
+    this.finSemana = fechas[0].toLocaleString();
   }
 
   async crear(dato: UsuarioModel){  
@@ -108,34 +145,60 @@ export class AuthService {
       Participa : true,
     }   
     return await this.afs.collection('Usuarios').doc(id).set(participa).then(resp=>{
-      console.log('ok');
-      
+      console.log('ok');      
      })
   }
 
-  async getUser(){        
-    return await this.afs.collection('Usuarios').get().forEach((element) => {
-      (element.docs).forEach((i:any)=>{
+  async setUserBloqueo(user: UsuarioModel,id: string, estado: string){        
+    const bloqueo={
+      Nombre : user.Nombre,
+      Apellido : user.Apellido,
+      Celular: user.Celular,
+      Granja: user.Granja,
+      Email: user.Email,
+      Localizacion : user.Localizacion,
+      CodigoMostrar : user.CodigoMostrar,
+      Estado: estado,
+      IdCodigo: user.IdUsuario,
+      Participa : user.Participa,
+    }   
+    return await this.afs.collection('Usuarios').doc(id).set(bloqueo).then(resp=>{
+      console.log('ok');      
+     })
+  }
+
+  getUser(){        
+    return this.afs.collection('Usuarios').get().forEach((element) => {
+      this.listaUser.length=0;
+      this.listaOtra=(element.docs);
+      (element.docs).forEach((i:any)=>{        
         this.listaUser.push(i.data());
         this.listaIdUser.push(i.id)
-        //console.log(i.id); 
-       //console.log(this.listaUser);
+        if(!i.data().Participa && i.data().Estado == 'Activo'){
+          this.usuarioParticipa.push(i.data());
+          this.total ++;
+        }
+        if(i.data().Participa && i.data().Estado == 'Activo'){
+          this.participantes ++;
+        }                            
         return this.listaUser;
       })       
     })   
   }
 
   getLocalizacion(){        
-    this.afs.collection('Mercados').get().forEach((element) => {
+    return this.afs.collection('Mercados').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{
-        this.listaMercados.push(i.data());        
+        this.listaMercados.push(i.data().Nombre);
+        //console.log(this.listaMercados);
+                
         return this.listaMercados;
       })       
     })        
   }
 
   getProducto(){        
-    this.afs.collection('Productos').get().forEach((element) => {
+    return this.afs.collection('Productos').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{
         this.listaProducto.push(i.data());        
         return this.listaProducto;
@@ -255,17 +318,26 @@ export class AuthService {
   }
 
   getRonda(){
-    return this.afs.collection('RondaHistorica').get().forEach((element) => {
-      (element.docs).forEach((i:any)=>{              
-        this.listaRonda.push(i.data()); 
-        return this.listaRonda;
-      })       
-    })  
+    let anio:any=[];
+    let sem: any=[];
+    let a = 0;    
+    return this.afs.collection('RondaHistorica').get().forEach((element:any)=>{
+      this.listaRonda.length =0;
+      (element.docs).map((i:any)=>{
+        this.listaRonda.push(i.data());
+        anio.push(i.data().Year);
+        sem.push(i.data().Semana);
+        this.years = Array.from(new Set(anio));
+        this.years.sort((a: any,b: any) =>a-b);
+        this.listaSemanas = Array.from(new Set(sem));
+        this.listaSemanas.sort((a: any,b: any) =>a-b);
+        //console.log(this.listaRonda);  
+        return this.listaRonda;        
+      })
+    })      
   }
 
-
-
-
+  
 
   /* login(usuario: UsuarioModel){
     const authData={

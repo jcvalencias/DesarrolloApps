@@ -29,6 +29,10 @@ import { ParticipacionComponent } from './components/admin/participacion/partici
 import { GraficosComponent } from './components/admin/graficos/graficos.component';
 import { DescargasComponent } from './components/admin/descargas/descargas.component';
 import { ConsultarComponent } from './components/admin/consultar/consultar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ChartsModule } from 'ng2-charts';
+
 
 @NgModule({
   declarations: [
@@ -59,6 +63,8 @@ import { ConsultarComponent } from './components/admin/consultar/consultar.compo
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    BrowserAnimationsModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

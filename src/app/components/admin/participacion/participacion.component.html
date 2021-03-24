@@ -1,30 +1,31 @@
 <fieldset class="fieldcontent">
     <legend class="fieldcontentTitle">Participación</legend>
-    <span class="userRonda">Han participado: {{participantes}} de: {{totalUsuarios}} usuarios registrados.</span>
+    <span class="mx-2">Han participado: {{participantes}} de: {{totalUsuarios}} usuarios registrados.</span>
     <br>
-    <span class="userRonda">Lista de usuarios sin participar</span>
-    <span class="btn btn-primary mx-2 export" onclick="userToExcel('testTable5','Usuarios sin participar')">
-        <i class="fas fa-download" style="margin-right: 20px;"></i>Descargar
+    <span class="mx-2">Lista de usuarios sin participar</span>
+    <span class="btn btn-primary mx-2 w-25 export" (click) = "exportToExcel()">
+        <i class="fas fa-download" style="margin-right: 5px;"></i>
     </span>
-    <div class="container">
+    
+      
     <!-- tabla usuarios que no han participado -->
-        <table class="table" id="testTable5" style="font-size: 12px;border:2;" summary="Code page support in different versions of MS Windows." rules="groups" frame="hsides" >
+      <table class="table mt-2" id="excel-table" style="font-size: 12px;border:2;" >
             <thead>
                 <tr>                                    
-                    <th style="width: 40px;">Codigo</th>                                    
+                    <th style="width: 30px;">Codigo</th>                                    
                     <th style="width: 60px;">Celular</th>
-                    <th style="width: 100px;">Nombre</th>
-                    <th style="width: 80px;">Granja</th>                                
+                    <th style="width: 110;">Nombre</th>
+                    <th style="width: 100px;">Granja</th>                                
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let user of usuarioLista">
-                    <td *ngIf="!user.Participa && user.Estado== 'Activo'" >{{user.CodigoMostrar}}</td>
-                    <td *ngIf="!user.Participa && user.Estado== 'Activo'">{{user.Celular}}</td>
-                    <td *ngIf="!user.Participa && user.Estado== 'Activo'">{{user.Nombre}}</td>
-                    <td *ngIf="!user.Participa && user.Estado== 'Activo'">{{user.Granja}}</td>
+                    <td>{{user.CodigoMostrar}}</td>
+                    <td>{{user.Celular}}</td>
+                    <td>{{user.Nombre}}</td>
+                    <td>{{user.Granja}}</td>
                 </tr>                                
             </tbody>
-        </table>
-    </div>
+        </table> 
+    
 </fieldset>

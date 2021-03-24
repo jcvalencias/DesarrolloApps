@@ -1,1 +1,54 @@
-<p>descargas works!</p>
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Filtrar resultados semanales </legend>
+    <div class="form-group mx-2 py-1">
+        <label class="etiqueta" >Seleccione un Año<a class="obligatorio">*</a></label>                
+            <select class="selectores w-100" [(ngModel)]= "anio">
+                <option selected disabled value="" >Seleccione un año...</option>
+                <option *ngFor="let year of listaYear " value="{{year}}">{{year}}</option>
+            </select>                           
+    </div>            
+    <div class="form-group mx-2 py-1">
+        <label class="etiqueta" >Seleccione una semana<a class="obligatorio">*</a></label>                
+            <select class="selectores w-100" [(ngModel)]= "sem">
+                <option selected disabled value="" >Seleccione una semana...</option>
+                <option *ngFor="let semana of semanaLista " value="{{semana}}">{{semana}}</option>
+            </select>                            
+    </div>
+    <div class="form-group mx-2 my-1 py-2">
+        <button class="btn btn-primary w-100" (click)= "cargaExcel()">Consultar</button>
+        <button class="btn btn-primary export w-100 mt-2"              
+                (click)="exportToExcel()"
+                [class.disabled] = "!flag" >
+            <i class="fas fa-download" style="margin-right: 5px;"></i>Excel
+        </button> 
+    </div> 
+    <!-- tabla usuarios que no han participado -->
+    <table class="table mt-2" id="excel-table1" style="font-size: 12px;border:2;display: none;" >
+        <thead>
+            <tr>                                    
+                <th style="width: 25px;"># Registro</th>                                    
+                <th style="width: 70px;">Corte Semanal</th>
+                <th style="width: 30px;">Usuario</th>
+                <th style="width: 70px;">Producto</th>
+                <th style="width: 30px;">Cantidad</th>                                    
+                <th style="width: 30px;">Precio X Kg</th>
+                <th style="width: 40px;">Peso promedio</th>
+                <th style="width: 50px;">Mercado</th> 
+                <th style="width: 70px;">Lugar de entrega</th>                               
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let registro of rondaLista; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{registro.UltimoDia}}</td>
+                <td>{{registro.Usuario}}</td>
+                <td>{{registro.Producto}}</td>
+                <td>{{registro.Cantidad}}</td>
+                <td>{{registro.Precio}}</td>
+                <td>{{registro.Peso}}</td>
+                <td>{{registro.Mercado}}</td>
+                <td>{{registro.Entrega}}</td>
+            </tr>                                
+        </tbody>
+    </table>     
+</fieldset> 

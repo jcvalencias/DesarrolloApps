@@ -1,1 +1,26 @@
-<p>graficos works!</p>
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Participación</legend>
+    <div>
+        <div>
+            <div style="display: block">
+                <canvas baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"        
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+                </canvas>
+            </div>
+            <button class="btn btn-primary my-2 refresh" (click)="consultarRondaActual()">Refrescar</button>
+        </div>
+        <div style="display: block">
+            <canvas baseChart
+            [datasets]="barChartDataP"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"        
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+            </canvas>
+        </div>
+    </div>
+</fieldset>

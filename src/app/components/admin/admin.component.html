@@ -4,67 +4,11 @@
 </div>
 <app-activar></app-activar>
 <app-participacion></app-participacion>
-    <div class="admin1" >
+<app-graficos></app-graficos>
+<app-descargas></app-descargas>
+<app-consultar></app-consultar>
         
-        <fieldset class="fieldcontent">
-            <legend class="fieldcontentTitle">Participación</legend>
-            <div class="my-1 py-2"> 
-                
-                <legend class="fieldcontentTitle">Comparativo de registros semanales</legend>
-                <div id="grafico" class="graficos">                                   
-                </div>
-                <div id="grafico1" class="graficos">                                   
-                </div>                    
-            </div>
-        </fieldset>
-        <fieldset class="fieldcontent">
-            <legend class="fieldcontentTitle">Filtrar resultados semanales </legend>
-            <div class="form-group my-1 py-2">
-                <select class="selectores" name="anual" id="anual">                        
-                </select>
-            </div>                
-            <div class="form-group my-1 py-2">
-                <select class="selectores" name="semanal" id="semanal">            
-                </select>
-            </div>
-            <div class="form-group my-1 py-2">
-                <span class="btn btn-primary mx-2 export" onclick="toExcel('testTable','Registros Semanales')">
-                    <i class="fas fa-download" style="margin-right: 20px;"></i>Tabla Resultados Semanales.
-                </span> 
-            </div>     
-        </fieldset> 
-        <fieldset class="fieldcontent">
-            <legend class="fieldcontentTitle">Buscar Usuario</legend>
-            <br>
-            <div class="container">
-                <input class="form-control btn_busca_Usuario" type="text" id="codigoBuscar" class="form-control" placeholder="Ingrese aqui el código">
-                <span class="btn btn-primary btn_busca_Usuario" id="btn_busca_Usuario">
-                    <i class="fas fa-search" style="margin-right: 20px;"></i>Buscar
-                </span>
-            </div>                        
-            <div class="contUser">
-                <div class="datoUser">
-                    <span style="width: 100%;">Nombre</span>
-                    <input type="tetx" class="form-control" disabled id="lbl_nombre">
-                </div>
-                <div class="datoUser">
-                    <span style="width: 100%;">Celular</span>
-                    <input type="tetx" class="form-control" disabled id="lbl_celular">
-                </div>
-                <div class="datoUser">
-                    <span style="width: 100%;">Email</span>
-                    <input type="tetx" class="form-control" disabled id="lbl_email">
-                </div>
-                <div class="datoUser">
-                    <span style="width: 100%;">Granja</span>
-                    <input type="tetx" class="form-control" disabled id="lbl_granja">
-                </div>
-                <div class="datoUser">
-                    <span style="width: 100%;">Localización</span>
-                    <input type="tetx" class="form-control" disabled id="lbl_localizacion">
-                </div>                            
-            </div>                       
-        </fieldset>                                                   
+                                                           
             
 
 
@@ -235,5 +179,5 @@
                 </table>
             </div>
        
-    </div>
+    
 

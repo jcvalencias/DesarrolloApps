@@ -47,10 +47,7 @@ export class RegistroComponent implements OnInit {
       celular: ['',[Validators.required, Validators.minLength(10)]],
       password: ['',[Validators.required, Validators.minLength(6)]],
       email: ['',[Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      //estado: ['',],
       localizacion: ['', Validators.required],
-      /* CodigoMostrar: [''],    
-      IdUsuario: [''] */
     })
   }
 
@@ -108,28 +105,6 @@ export class RegistroComponent implements OnInit {
       Swal.close();      
       this.router.navigateByUrl('/acceso');
     })     
-
-    /* Swal.fire({ 
-      allowOutsideClick: false,
-      icon: 'info',
-      text: 'Espera por Favor..'
-    });
-    Swal.showLoading(); 
-    
-       
-    this.auth.crearUsuario(this.usuario).subscribe(resp=>{
-      Swal.close(); 
-      this.auth.saveUser(this.usuario).subscribe(resp=>{
-        console.log('nuevo',resp);
-        this.router.navigateByUrl('/acceso');
-      })    
-    }, (err)=>{
-      Swal.fire({
-        title:'Error al autenticar',
-        text: err.error.error.message,
-        icon: 'error',
-      });      
-    });   */
   }
 
 }

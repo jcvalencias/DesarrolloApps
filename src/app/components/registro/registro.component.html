@@ -55,7 +55,11 @@
                             formControlName="localizacion"
                             [class.is-invalid]= "campoNoValido('localizacion')">
                         <option selected disabled value="" >Seleccione una ubicación...</option>
-                        <option *ngFor="let item of mercadoLista " value="{{item.Nombre}}">{{item.Nombre}}</option>
+                        <option value="Antioquia">Antioquia</option>
+                        <option value="Eje Cafetero">Eje Cafetero</option>
+                        <option value="Valle del Cauca">Valle del Cauca</option>
+                        <option value="Costa Atlántica">Costa Atlántica</option>
+                        <option value="Bogotá">Antioquia</option>
                     </select>
                     <small *ngIf="campoNoValido('localizacion')" class="text-danger">
                         Campo obligatorio
@@ -92,7 +96,7 @@
             </div>
             <div >
                 <button type="submit" class="btn btn-danger mt-3 w-100">
-                    <span style="font-size: 20px;"> Registrarse</span>
+                    Registrarse
                 </button>
             </div> 
             <div>
