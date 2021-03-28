@@ -24,6 +24,7 @@ export class RondaComponent implements OnInit{
   mercadoLista: MercadoModel[]=[];
   entregaLista : EntregaModel[]=[];
   usuario= new UsuarioModel();
+  rondaLista: any[] = [];
   idDocumentosUser: any;
   desicion : any; 
   numeroSemana: any; 
@@ -36,12 +37,14 @@ export class RondaComponent implements OnInit{
   id : any;
   formRonda:any=FormGroup;
   fijar:any;
+  participo= false;
+  year = new Date().getFullYear();
 
   constructor(
     private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {
     this.crearFormulario();
     this.cargarDatos();
@@ -53,28 +56,63 @@ export class RondaComponent implements OnInit{
   }
 
   cargarDatos(){
-    this.productoLista = this.auth.listaProducto;  
-    this.usuarioLista = this.auth.listaUser; 
-    this.mercadoLista = this.auth.listaMercados;
-    this.entregaLista = this.auth.listaEntrega;
-    this.numeroSemana = this.auth.numeroSemana; 
-    this.finSemana = this.auth.finSemana;   
-    console.log(this.usuarioLista);
-    let i = 0
-    for(let user of this.usuarioLista){        
-      if(this.id == user.IdUsuario){
-        this.usuario = {
-          ...user
+    this.auth.getProducto().then(resp=>{
+      this.productoLista = this.auth.listaProducto;
+      //console.log(this.productoLista);      
+    })
+    this.auth.getLocalizacion().then(resp=>{
+      this.mercadoLista = this.auth.listaMercados;
+      //console.log(this.mercadoLista);      
+    })
+    
+    this.auth.getRondaHistorica().then(()=>{
+      this.rondaLista = this.auth.listaRondaHistorica;
+      console.log(this.rondaLista);      
+    })
+
+    this.auth.getUser().then(resp=>{
+      this.usuarioLista = this.auth.listaUser;
+      let i = 0
+      console.log(this.usuarioLista);
+      
+      for(let user of this.usuarioLista){  
+        console.log('uno');
+         
+        if(this.id == user.IdUsuario){ 
+          console.log('dos');
+          this.usuario = {
+            ...user
+          }
+          for(let ronda of this.rondaLista){
+            console.log('tres');
+            if(ronda.Usuario == this.usuario.CodigoMostrar && ronda.Year == this.year){
+              this.participo = true;
+              
+            }
+          }
+          this.idDocumentosUser = this.auth.listaIdUser[i];
+          console.log('prueba',this.usuario);
+          console.log('prueba',this.idDocumentosUser);
+          localStorage.setItem('codigo', user.CodigoMostrar);
         }
-        this.idDocumentosUser = this.auth.listaIdUser[i];
-        console.log('prueba',this.usuario);
-        console.log('prueba',this.idDocumentosUser);
-        localStorage.setItem('codigo', user.CodigoMostrar);
-      }
-      i++;
-    }
+        i++;
+      }       
+    })
+    this.auth.getEntrega().then(resp=>{
+      this.entregaLista = this.auth.listaEntrega;
+      console.log(this.entregaLista);
+      this.userParticipo();      
+    })    
+    this.numeroSemana = this.auth.numeroSemana; 
+    this.finSemana = this.auth.finSemana;    
     this.codigo = localStorage.getItem('codigo');
     this.ronda.Usuario = this.codigo;
+  }
+
+  userParticipo(){
+    if(this.participo){
+      this.auth.salidaForzada();
+    }
   }
 
   crearFormulario(){
@@ -170,8 +208,7 @@ export class RondaComponent implements OnInit{
             title: 'Buen trabajo', 
             text: 'Registro creado exitosamente!!!',
             icon:"success"
-          }); 
-          this.usuarioParticipa();         
+          });       
           if(this.formRonda.controls.enviar.value == 'Si'){
             console.log("Continua...");
             this.formRonda.reset({
@@ -196,14 +233,6 @@ export class RondaComponent implements OnInit{
         return;
       }
     });       
-  }
-  
-  usuarioParticipa(){
-    this.auth.setUserParicipa(this.usuario,this.idDocumentosUser).then(resp=>{
-      console.log('cambio en participacion');  
-      console.log('usuario', this.usuario);
-      console.log('id', this.idDocumentosUser);    
-    })
   }
 
 }

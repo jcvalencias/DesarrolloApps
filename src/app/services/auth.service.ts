@@ -45,8 +45,9 @@ export class AuthService {
   finSemana: any;
   years:any= [];
   listaSemanas: any =[];
-
   listaOtra: any = [];
+  uid : any;
+  listaRondaHistorica: any=[];
 
   constructor(
     private http: HttpClient,
@@ -54,7 +55,6 @@ export class AuthService {
     private afauth: AngularFireAuth,
     private router: Router,
   ) {
-    //this.getUser();
     this.usuario$ = this.afauth.authState.pipe(
       switchMap( user => {
         console.log("user", user);
@@ -66,11 +66,7 @@ export class AuthService {
       })
     )
     
-    this.estaAutenticado();
-    this.getProducto();
-    this.getEntrega();    
-    //this.getLocalizacion();
-    //this.getRonda();
+    this.estaAutenticado();   
     this.generarFechas();
   }
 
@@ -96,9 +92,9 @@ export class AuthService {
 
   async crear(dato: UsuarioModel){  
     return await this.afauth.createUserWithEmailAndPassword(dato.Email,dato.Password).then(userCredential =>{
-      let uid: any = userCredential.user?.uid;
+      this.uid = userCredential.user?.uid;
       userCredential.user?.sendEmailVerification();
-      this.crearUser(dato, uid);
+      return this.uid;
     })    
   }
 
@@ -112,12 +108,9 @@ export class AuthService {
       Localizacion : datos.Localizacion,
       CodigoMostrar : datos.CodigoMostrar,
       Estado: datos.Estado,
-      IdCodigo: uid,
-      Participa : false,
+      IdCodigo: uid
     }    
-    return await this.afs.collection('Usuarios').doc().set(userTemp1).then(resp=>{
-      
-     })
+    return await this.afs.collection('Usuarios').doc().set(userTemp1).then(resp=>{ })
   }
 
   recuperarContrasena(usuario: UsuarioModel){
@@ -131,24 +124,6 @@ export class AuthService {
     })
   }
 
-  async setUserParicipa(user: UsuarioModel,id: string){    
-    const participa={
-      Nombre : user.Nombre,
-      Apellido : user.Apellido,
-      Celular: user.Celular,
-      Granja: user.Granja,
-      Email: user.Email,
-      Localizacion : user.Localizacion,
-      CodigoMostrar : user.CodigoMostrar,
-      Estado: user.Estado,
-      IdCodigo: user.IdUsuario,
-      Participa : true,
-    }   
-    return await this.afs.collection('Usuarios').doc(id).set(participa).then(resp=>{
-      console.log('ok');      
-     })
-  }
-
   async setUserBloqueo(user: UsuarioModel,id: string, estado: string){        
     const bloqueo={
       Nombre : user.Nombre,
@@ -159,8 +134,7 @@ export class AuthService {
       Localizacion : user.Localizacion,
       CodigoMostrar : user.CodigoMostrar,
       Estado: estado,
-      IdCodigo: user.IdUsuario,
-      Participa : user.Participa,
+      IdCodigo: user.IdUsuario
     }   
     return await this.afs.collection('Usuarios').doc(id).set(bloqueo).then(resp=>{
       console.log('ok');      
@@ -173,25 +147,27 @@ export class AuthService {
       this.listaOtra=(element.docs);
       (element.docs).forEach((i:any)=>{        
         this.listaUser.push(i.data());
-        this.listaIdUser.push(i.id)
-        if(!i.data().Participa && i.data().Estado == 'Activo'){
-          this.usuarioParticipa.push(i.data());
-          this.total ++;
-        }
-        if(i.data().Participa && i.data().Estado == 'Activo'){
-          this.participantes ++;
-        }                            
+        this.listaIdUser.push(i.id)                   
         return this.listaUser;
       })       
     })   
+  }
+
+  getRondaHistorica(){        
+    return this.afs.collection('RondaHistorica').get().forEach((element) => {
+      (element.docs).forEach((i:any)=>{
+        if(i.data().Semana == this.numeroSemana){
+          this.listaRondaHistorica.push(i.data());
+        }        
+        return this.listaRondaHistorica;
+      })       
+    })        
   }
 
   getLocalizacion(){        
     return this.afs.collection('Mercados').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{
         this.listaMercados.push(i.data().Nombre);
-        //console.log(this.listaMercados);
-                
         return this.listaMercados;
       })       
     })        
@@ -207,12 +183,20 @@ export class AuthService {
   }
 
   getEntrega(){        
-    this.afs.collection('Entrega').get().forEach((element) => {
+    return this.afs.collection('Entrega').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{
         this.listaEntrega.push(i.data());        
         return this.listaEntrega;
       })       
     })           
+  }
+
+  async salidaForzada(){
+    return await this.afauth.signOut().then(()=>{    
+      localStorage.clear();
+      Swal.fire("Señor porcicultor", "Usted ya participo durante la ronda de la semana en curso, solo se permite una participación por semana, gracias.", "success"); 
+      this.router.navigateByUrl('/inicio');
+    })
   }
 
   logOut(){

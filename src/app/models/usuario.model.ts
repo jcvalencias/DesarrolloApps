@@ -11,5 +11,4 @@ export class UsuarioModel{
     CodigoMostrar: string = '';
     Estado= 'Activo';
     IdUsuario: string = '';
-    Participa: boolean= false;
 }
