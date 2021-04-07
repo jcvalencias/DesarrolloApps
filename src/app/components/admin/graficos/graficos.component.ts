@@ -22,6 +22,7 @@ export class GraficosComponent implements OnInit {
       }
     }
   };
+  
   public barChartLabels: Label[] = [];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
@@ -136,10 +137,10 @@ export class GraficosComponent implements OnInit {
             { data: [this.conteoFriaAnt, this.conteoFriaEje, this.conteoFriaVal, this.conteoFriaCos, this.conteoFriaBog], label: 'Canal Fría' }
           ];        
         }
-      }
-      
+      }      
     }) 
   }
+
   consultarRondaAnterior(){
     this.auth.getRonda().then(resp=>{
       for(let registro of this.auth.listaRonda){

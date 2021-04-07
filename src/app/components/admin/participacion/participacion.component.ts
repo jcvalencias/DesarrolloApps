@@ -48,7 +48,7 @@ export class ParticipacionComponent implements OnInit {
         this.idUsuariosLista.push(user.CodigoMostrar);
         this.totalUsuarios ++;        
         for(let ronda of this.auth.listaRonda){        
-          if(ronda.Semana==12 && ronda.Year == 2021){           
+          if(ronda.Semana == this.auth.numeroSemana && ronda.Year == 2021){           
             if(user.CodigoMostrar == ronda.Usuario && user.Estado == "Activo"){
               console.log('User', user);
               this.participa.push(user.CodigoMostrar);
@@ -63,11 +63,11 @@ export class ParticipacionComponent implements OnInit {
   datos(){
     this.siParticipa = Array.from(new Set(this.participa));
     this.participantes= this.siParticipa.length; 
-    if(this.siParticipa.length == 0){
+    if(this.siParticipa.length != 0){
       this.noParticipa = this.diferenciaDeArreglos(this.siParticipa, this.idUsuariosLista);
     }else{
       this.noParticipa = this.diferenciaDeArreglos(this.idUsuariosLista, this.siParticipa);
-    }
+    }    
     for(let user of this.usuarioLista){
       for(let p of this.noParticipa){
         if(user.CodigoMostrar != 'Bog001' && p == user.CodigoMostrar){

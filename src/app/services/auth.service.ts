@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuarioModel } from '../models/usuario.model';
 
@@ -64,10 +64,29 @@ export class AuthService {
           return of(null);
         }
       })
-    )
-    
+    )    
     this.estaAutenticado();   
     this.generarFechas();
+  }
+
+  enviarNoti(){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', 
+      'Authorization': 'Basic ZjhmMjE2MzgtYjMxOC00MmFhLThhOWItMmNkOTVkYWM1OTFl',
+    });
+    const body = {
+      "app_id": "333eabbc-5a73-4e56-9375-7fb8f9461a86",
+	    "included_segments": ["Active Users", "Inactive Users"],
+	    "contents": { "en": "English message from angular", "es": "Mensaje en español desde angular, señor porcicultor"},
+	    "headings": { "en": "English Title", "es": "Titulo en español"}
+    }
+    return this.http.post('https://onesignal.com/api/v1/notifications',JSON.stringify(body), {headers: headers})
+    .pipe(
+      map((resp: any) =>{
+        console.log('resp', resp);        
+        return resp;
+      })
+    )     
   }
 
   generarFechas(){
@@ -304,7 +323,7 @@ export class AuthService {
   getRonda(){
     let anio:any=[];
     let sem: any=[];
-    let a = 0;    
+        
     return this.afs.collection('RondaHistorica').get().forEach((element:any)=>{
       this.listaRonda.length =0;
       (element.docs).map((i:any)=>{

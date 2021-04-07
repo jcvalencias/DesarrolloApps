@@ -26,6 +26,7 @@
     "file-server": "^2.1.0",
     "firebase": "^8.3.0",
     "ng2-charts": "^2.4.2",
+    "onesignal-node": "^3.2.1",
     "rxjs": "~6.6.0",
     "sweetalert2": "^9.11.0",
     "tslib": "^2.0.0",
