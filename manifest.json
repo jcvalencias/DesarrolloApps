@@ -1,6 +1,6 @@
 {
     "name":"ronda-precios-historicos",
-    "short_name": "Ronda de Precios Históricos Porkcolombia",
+    "short_name": "Ronda de Precios Históricos",
     "lang": "es",
     "start_url": "/",
     "display": "standalone",

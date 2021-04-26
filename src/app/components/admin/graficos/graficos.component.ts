@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
@@ -66,6 +67,7 @@ export class GraficosComponent implements OnInit {
 
   constructor(
     private auth : AuthService,
+    private router: Router,
   ) { }
   
   ngOnInit(): void {
@@ -83,8 +85,24 @@ export class GraficosComponent implements OnInit {
   }
 
   consultarRondaActual(){
-    this.auth.getRonda().then(resp=>{
-      for(let registro of this.auth.listaRonda){
+    //this.router.navigateByUrl('/admin');
+    this.conteoPieBog=0;
+    this.conteoCalienteBog=0;
+    this.conteoFriaBog=0;
+    this.conteoPieVal=0;
+    this.conteoCalienteVal=0;
+    this.conteoFriaVal=0;
+    this.conteoPieAnt=0;
+    this.conteoCalienteAnt=0;
+    this.conteoFriaAnt=0;
+    this.conteoPieEje=0;
+    this.conteoCalienteEje=0;
+    this.conteoFriaEje=0;
+    this.conteoPieCos=0;
+    this.conteoCalienteCos=0;
+    this.conteoFriaCos=0;
+    this.auth.getRondaHistorica().then(resp=>{
+      for(let registro of this.auth.listaRondaHistorica){
         if(registro.Semana== this.numeroSemana && registro.Year == this.year){
           if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Bogotá'){
             this.conteoPieBog ++;
@@ -142,8 +160,23 @@ export class GraficosComponent implements OnInit {
   }
 
   consultarRondaAnterior(){
-    this.auth.getRonda().then(resp=>{
-      for(let registro of this.auth.listaRonda){
+    this.conteoPieBogP=0;
+    this.conteoCalienteBogP=0;
+    this.conteoFriaBogP=0;
+    this.conteoPieValP=0;
+    this.conteoCalienteValP=0;
+    this.conteoFriaValP=0;
+    this.conteoPieAntP=0;
+    this.conteoCalienteAntP=0;
+    this.conteoFriaAntP=0;
+    this.conteoPieEjeP=0;
+    this.conteoCalienteEjeP=0;
+    this.conteoFriaEjeP=0;
+    this.conteoPieCosP=0;
+    this.conteoCalienteCosP=0;
+    this.conteoFriaCosP=0;
+    this.auth.getRondaHistorica().then(resp=>{
+      for(let registro of this.auth.listaRondaHistorica){
         if(registro.Semana == (this.numeroSemana-1) && registro.Year == this.year){
           if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Bogotá'){
             this.conteoPieBogP ++;

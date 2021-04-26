@@ -71,7 +71,7 @@
                                     formControlName="mercado"
                                     [class.is-invalid]= "campoNoValido('mercado')">
                                 <option selected disabled value="" >Seleccione una opcion...</option>
-                                <option *ngFor="let mercado of mercadoLista" value="{{mercado.Nombre}}">{{mercado.Nombre}}</option>
+                                <option *ngFor="let mercado of mercadoLista" value="{{mercado}}">{{mercado}}</option>
                             </select>
                             <small *ngIf="campoNoValido('mercado')" class="text-danger">
                                 Campo obligatorio
@@ -116,9 +116,12 @@
                             </small>
                         </div>
                         <hr class="hr">
-                        <div >
+                        <div>
                             <button type="submit" class="btn btn-danger mt-3 w-100">
                                 Enviar
+                            </button>
+                            <button type="button" class="btn btn-secondary mt-3 w-100" style="font-weight:lighter !important; font-size: 20px;" routerLink="/acceso">
+                                <span style="font-size: 20px;"> Salir</span>
                             </button>
                         </div>                            
                     </form>            

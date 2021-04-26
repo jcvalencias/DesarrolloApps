@@ -16,19 +16,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  enviarMensaje(){
+  /* enviarMensaje(){
     this.authService.enviarNoti().subscribe(resp=>{
-      console.log(resp);
-      
-    })/* .then(resp=>{
-      console.log('exito',resp);      
-    },(err: HttpErrorResponse)=>{
-      if (err.error instanceof Error) {
-        console.log("Client-side error");
-      } else {
-        console.log("Server-side error");
-      }
-    }) */
-  }
+      console.log(resp);      
+    })
+  } */
 
 }

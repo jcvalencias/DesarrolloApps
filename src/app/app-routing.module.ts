@@ -11,14 +11,14 @@ import { RondaComponent } from './components/ronda/ronda.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
+  //{path: 'home', component: HomeComponent},
   {path: 'registro', component: RegistroComponent},
   {path: 'acceso', component: AccesoComponent},
   {path: 'ayuda', component: AyudaComponent},
   {path: 'ronda/:id', component: RondaComponent, canActivate:[AuthGuard]},
   {path: 'admin', component: AdminComponent,  canActivate:[AuthGuard]},
   {path: 'olvideClave', component: OlvideClaveComponent},
-  { path: '**', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'acceso', pathMatch: 'full' },
 ];
 
 @NgModule({

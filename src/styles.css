@@ -108,3 +108,12 @@ button{
 
 html, body { height: 100%; }
 body { margin: 0; font-family:'Segoe UI', "Helvetica Neue", sans-serif; }
+
+.fondo{
+    background-color: rgb(240, 34, 82)!important;
+    width: 100%;
+    color: white;
+    padding: auto;
+    text-align: center;
+    padding: 3px 0px;
+}

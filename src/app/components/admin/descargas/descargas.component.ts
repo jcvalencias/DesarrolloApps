@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { delay } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
+import * as moment from 'moment';
+//import 'moment/locale/pt-br';
 @Component({
   selector: 'app-descargas',
   templateUrl: './descargas.component.html',
@@ -51,11 +52,13 @@ export class DescargasComponent implements OnInit {
         icon:"success"
       });
     }
-    for(let registro of this.auth.listaRonda){            
-      if(registro.Semana == this.sem && registro.Year == this.anio){
-        this.rondaLista.push(registro);
+    this.auth.getRondaHistorica().then(()=>{
+      for(let registro of this.auth.listaRondaHistorica){                
+        if(registro.Semana == this.sem && registro.Year == this.anio){
+          this.rondaLista.push(registro);        
+        }
       }
-    }
+    })    
   }
 
   exportToExcel(): void{

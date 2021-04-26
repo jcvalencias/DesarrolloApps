@@ -1,6 +1,6 @@
 <div class="container">
-    <div class="container text-center mt-2">
-        <h4>Autenticar usuario</h4>
+    <div class="container text-center mt-2 fondo" style="height: 35px !important;">
+        <h2>Autenticar usuario</h2>
     </div>
 </div>                
 <div class="modal-body">
@@ -16,9 +16,13 @@
         </button>
         <div class="form-group py-1">
             <label>
-                <a routerLink="/olvideClave" class="txt1">¿Clik aqui para recuperar su contraseña?</a>                
+                <span>¿Olvido su contraseña? <a routerLink="/olvideClave"> Recuperela aqui</a></span>             
             </label>
-        </div>                      
+            <br>
+            <label>
+                <span>¿No tiene cuenta? <a routerLink="/registro"> Registrese aqui</a></span>  
+            </label>
+        </div>                     
     </form>                          
 </div>
 

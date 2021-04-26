@@ -32,6 +32,8 @@ import { ConsultarComponent } from './components/admin/consultar/consultar.compo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ChartsModule } from 'ng2-charts';
+import { MensajesComponent } from './components/admin/mensajes/mensajes.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import { ChartsModule } from 'ng2-charts';
     ParticipacionComponent,
     GraficosComponent,
     DescargasComponent,
-    ConsultarComponent
+    ConsultarComponent,
+    MensajesComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,13 @@ import { ChartsModule } from 'ng2-charts';
     AngularFireAuthModule,
     AngularFireStorageModule,
     BrowserAnimationsModule,
-    ChartsModule
+    ChartsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

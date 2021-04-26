@@ -13,6 +13,8 @@ import { Observable, of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { RondaModel } from '../models/ronda.model';
 
+import * as moment from 'moment';
+
 declare global {
   interface Date {
       getWeek (start?: Date) : [Date, Number]
@@ -69,7 +71,7 @@ export class AuthService {
     this.generarFechas();
   }
 
-  enviarNoti(){
+  enviarNoti(mensaje: string){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json', 
       'Authorization': 'Basic ZjhmMjE2MzgtYjMxOC00MmFhLThhOWItMmNkOTVkYWM1OTFl',
@@ -77,13 +79,13 @@ export class AuthService {
     const body = {
       "app_id": "333eabbc-5a73-4e56-9375-7fb8f9461a86",
 	    "included_segments": ["Active Users", "Inactive Users"],
-	    "contents": { "en": "English message from angular", "es": "Mensaje en español desde angular, señor porcicultor"},
-	    "headings": { "en": "English Title", "es": "Titulo en español"}
+	    "contents": { "en": `${mensaje}`,  "es": `${mensaje}`},
+	    "headings": { "en": "Mr Porcicultor", "es": "Señor Porcicultor"}
     }
     return this.http.post('https://onesignal.com/api/v1/notifications',JSON.stringify(body), {headers: headers})
     .pipe(
       map((resp: any) =>{
-        console.log('resp', resp);        
+        //console.log('resp', resp);        
         return resp;
       })
     )     
@@ -101,12 +103,13 @@ export class AuthService {
       var day = today.getDay() - start;
       var date = today.getDate() - day;
       var StartDate = new Date(today.setDate(date));
-      var EndDate = new Date(today.setDate(date + 5));
+      var EndDate = new Date(today.setDate(date + 6));
       return [EndDate, (week-1)];
     }    
     let fechas = new Date().getWeek();
-    this.numeroSemana = fechas[1];
-    this.finSemana = fechas[0].toLocaleString();
+    this.numeroSemana = fechas[1];    
+    this.finSemana = fechas[0].toLocaleString('en-US');
+    console.log(this.finSemana);
   }
 
   async crear(dato: UsuarioModel){  
@@ -172,18 +175,18 @@ export class AuthService {
     })   
   }
 
-  getRondaHistorica(){        
+  getRondaHistorica(){  
+    this.listaRondaHistorica = [];      
     return this.afs.collection('RondaHistorica').get().forEach((element) => {
-      (element.docs).forEach((i:any)=>{
-        if(i.data().Semana == this.numeroSemana){
-          this.listaRondaHistorica.push(i.data());
-        }        
+      (element.docs).forEach((i:any)=>{        
+          this.listaRondaHistorica.push(i.data());                
         return this.listaRondaHistorica;
       })       
     })        
   }
 
-  getLocalizacion(){        
+  getLocalizacion(){ 
+    this.listaMercados =[];       
     return this.afs.collection('Mercados').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{
         this.listaMercados.push(i.data().Nombre);
@@ -192,7 +195,8 @@ export class AuthService {
     })        
   }
 
-  getProducto(){        
+  getProducto(){ 
+    this.listaProducto =[];     
     return this.afs.collection('Productos').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{
         this.listaProducto.push(i.data());        
@@ -201,7 +205,8 @@ export class AuthService {
     })           
   }
 
-  getEntrega(){        
+  getEntrega(){
+    this.listaEntrega =[];        
     return this.afs.collection('Entrega').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{
         this.listaEntrega.push(i.data());        
@@ -308,6 +313,7 @@ export class AuthService {
   }
 
   getEstadoRonda(){
+    this.estadoRonda =[];
     return this.afs.collection('Estado').get().forEach((element) => {
       (element.docs).forEach((i:any)=>{      
         this.estadoRonda=i.data().Estado;        
@@ -322,8 +328,8 @@ export class AuthService {
 
   getRonda(){
     let anio:any=[];
-    let sem: any=[];
-        
+    let sem: any=[];  
+    this.listaRonda = [];      
     return this.afs.collection('RondaHistorica').get().forEach((element:any)=>{
       this.listaRonda.length =0;
       (element.docs).map((i:any)=>{
@@ -333,8 +339,7 @@ export class AuthService {
         this.years = Array.from(new Set(anio));
         this.years.sort((a: any,b: any) =>a-b);
         this.listaSemanas = Array.from(new Set(sem));
-        this.listaSemanas.sort((a: any,b: any) =>a-b);
-        //console.log(this.listaRonda);  
+        this.listaSemanas.sort((a: any,b: any) =>a-b);  
         return this.listaRonda;        
       })
     })      

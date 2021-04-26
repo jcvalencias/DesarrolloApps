@@ -47,7 +47,6 @@ export class RondaComponent implements OnInit{
     private formBuilder: FormBuilder
   ) {
     this.crearFormulario();
-    this.cargarDatos();
   }
   
   ngOnInit(): void {
@@ -60,39 +59,32 @@ export class RondaComponent implements OnInit{
       this.productoLista = this.auth.listaProducto;
       //console.log(this.productoLista);      
     })
+
     this.auth.getLocalizacion().then(resp=>{
       this.mercadoLista = this.auth.listaMercados;
       //console.log(this.mercadoLista);      
     })
     
     this.auth.getRondaHistorica().then(()=>{
+      this.rondaLista = [];
       this.rondaLista = this.auth.listaRondaHistorica;
-      console.log(this.rondaLista);      
+      this.numeroSemana = this.auth.numeroSemana;     
     })
 
     this.auth.getUser().then(resp=>{
       this.usuarioLista = this.auth.listaUser;
-      let i = 0
-      console.log(this.usuarioLista);
-      
-      for(let user of this.usuarioLista){  
-        console.log('uno');
-         
+      let i = 0;      
+      for(let user of this.usuarioLista){           
         if(this.id == user.IdUsuario){ 
-          console.log('dos');
           this.usuario = {
             ...user
           }
           for(let ronda of this.rondaLista){
-            console.log('tres');
-            if(ronda.Usuario == this.usuario.CodigoMostrar && ronda.Year == this.year){
-              this.participo = true;
-              
+            if(ronda.Usuario == this.usuario.CodigoMostrar && ronda.Year == this.year && ronda.Semana == this.numeroSemana){
+              this.participo = true;              
             }
           }
           this.idDocumentosUser = this.auth.listaIdUser[i];
-          console.log('prueba',this.usuario);
-          console.log('prueba',this.idDocumentosUser);
           localStorage.setItem('codigo', user.CodigoMostrar);
         }
         i++;
@@ -100,10 +92,9 @@ export class RondaComponent implements OnInit{
     })
     this.auth.getEntrega().then(resp=>{
       this.entregaLista = this.auth.listaEntrega;
-      console.log(this.entregaLista);
       this.userParticipo();      
     })    
-    this.numeroSemana = this.auth.numeroSemana; 
+     
     this.finSemana = this.auth.finSemana;    
     this.codigo = localStorage.getItem('codigo');
     this.ronda.Usuario = this.codigo;

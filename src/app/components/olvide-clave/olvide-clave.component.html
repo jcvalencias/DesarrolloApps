@@ -1,8 +1,8 @@
 <div class="container">
-    <div class="container text-center mt-5">
-        <h4>Recuperar contraseña</h4>
+    <div class="container text-center mt-2 fondo" style="height: 35px !important;">
+        <h2>Recuperar contraseña</h2>
     </div>
-</div>                
+</div>              
 <div class="modal-body">
     <form (ngSubmit) = "recuperar(formContrasena)" #formContrasena = "ngForm">
         <div class="form-group py-1">
@@ -11,7 +11,15 @@
         <button type="submit" class="btn btn-danger mt-3 w-100">
             <span style="font-size: 20px;"> Enviar</span>
         </button>
-    </form>                          
+        <button type="button" class="btn btn-secondary mt-3 w-100" style="font-weight:lighter !important; font-size: 20px;" routerLink="/acceso">
+            <span style="font-size: 20px;"> Cancelar</span>
+        </button>
+    </form>
+    <div class="form-group py-1">
+        <label>
+            <span>¿No tiene cuenta? <a routerLink="/registro"> Registrese aqui</a></span>  
+        </label>
+    </div>                             
 </div>
 
 
