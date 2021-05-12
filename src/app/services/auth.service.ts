@@ -109,7 +109,7 @@ export class AuthService {
     let fechas = new Date().getWeek();
     this.numeroSemana = fechas[1];    
     this.finSemana = fechas[0].toLocaleString('en-US');
-    console.log(this.finSemana);
+    //console.log(this.finSemana);
   }
 
   async crear(dato: UsuarioModel){  
