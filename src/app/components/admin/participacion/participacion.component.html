@@ -1,30 +1,45 @@
 <fieldset class="fieldcontent">
     <legend class="fieldcontentTitle">Participación</legend>
-    <span class="mx-2">Han participado: {{participantes}} de: {{totalUsuarios-1}} usuarios registrados.</span>
+    <span class="mx-2">Han participado: {{participantes}} de: {{totalUsuarios-1}} usuarios habilitados</span>
     <br>
-    <span class="mx-2">Lista de usuarios sin participar</span>
-    <span class="btn btn-primary mx-2 w-25 export" (click) = "exportToExcel()">    
-        <i class="fas fa-download" style="margin-right: 5px;"></i>
-    </span>    
-      
-    <!-- tabla usuarios que no han participado -->
-      <table class="table mt-2" id="excel-table" style="font-size: 12px;border:2;" >
-            <thead>
-                <tr>                                    
-                    <th style="width: 60px;">Codigo</th>                                    
-                    <th style="width: 60px;">Celular</th>
-                    <th style="width: 110;">Nombre</th>
-                    <th style="width: 150px;">Granja</th>                                
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let user of listaUser">
-                    <td>{{user.CodigoMostrar}}</td>
-                    <td>{{user.Celular}}</td>
-                    <td>{{user.Nombre}}</td>
-                    <td>{{user.Granja}}</td>
-                </tr>                                
-            </tbody>
-        </table> 
-    
+    <span class="mx-2" style="margin-bottom: 30px !important;height: 40px;">Lista de usuarios sin participar <i (click) = "exportToExcel()" class="fas fa-download" >Descargar aqui</i></span>  
+    <table class="table mt-2" id="excel-table" style="font-size: 12px;border:2;" >
+        <thead>
+            <tr>                                    
+                <th style="width: 60px;">Codigo</th>                                    
+                <th style="width: 60px;">Celular</th>
+                <th style="width: 60px;">PushId</th>                            
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of listaUser">
+                <td>{{user.codigoMostrar}}</td>
+                <td>{{user.celular}}</td>
+                <td>{{user.pushUserId}}</td>
+            </tr>                                
+        </tbody>
+    </table>    
 </fieldset>
+
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Enviar mensaje a todos los usuarios</legend>
+    <div class="container my-1 py-2">
+        <textarea class="form-control mt-2" name="mensaje" placeholder="Ingrese el mensaje" [(ngModel)] = "mensaje" cols="80" rows="4"></textarea>        
+    </div> 
+    <div class="container my-1 py-2">
+        <button class="form-control btn btn-primary mt-2" (click)="mensajeSegmentado()">
+            Enviar mensaje
+        </button>
+    </div>                      
+    <div class="mt-3 mx-3">
+        <div>
+            <span style="width: 100%;">Usuarios que han recibido el mensaje: </span>
+            <input type="tetx" class="form-control" disabled [(ngModel)]= 'numero'>
+        </div>                         
+    </div>    
+</fieldset>
+<div class="container my-1 py-2">
+    <button type="button" class="btn btn-outline-danger mt-3 w-100" routerLink="/admin">
+        Atras
+    </button>
+</div>

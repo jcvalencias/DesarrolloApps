@@ -1,4 +1,4 @@
 export class EntregaModel{
-    id: string= '';
-    Lugar: string= '';
+    Nombre: string= '';
+    _id: string = '';
 }

@@ -102,6 +102,12 @@ button{
     font-size: 20px !important;
 }
 
+.btn-success{    
+    background-color: rgb(3, 110, 3) !important;
+    font-weight:lighter !important;
+    font-size: 20px !important;
+}
+
 .export{
     background-color:rgb(3, 110, 3) !important;
 }
@@ -116,4 +122,19 @@ body { margin: 0; font-family:'Segoe UI', "Helvetica Neue", sans-serif; }
     padding: auto;
     text-align: center;
     padding: 3px 0px;
+}
+
+.bt{
+    padding-left: 10px !important; 
+    font-weight:lighter !important; 
+    font-size: 20px;
+}
+
+.fr{
+    float: right; 
+}
+
+.font{
+    color: white !important;
+    font-size: 20px;
 }

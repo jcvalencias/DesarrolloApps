@@ -25,6 +25,11 @@ export class AccesoComponent implements OnInit {
 
   login(form: NgForm){
     if(form.invalid){
+      Swal.fire({
+        title: 'Atencion', 
+        text: 'El email y contraseña son requeridos',
+        icon:"success"
+      });
       return;
     }
     Swal.fire({ 

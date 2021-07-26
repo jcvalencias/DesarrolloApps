@@ -19,7 +19,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { AccesoComponent } from './components/acceso/acceso.component';
 import { AyudaComponent } from './components/ayuda/ayuda.component';
-import { RondaComponent } from './components/ronda/ronda.component';
+//import { RondaComponent } from './components/ronda/ronda.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -34,6 +34,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from 'ng2-charts';
 import { MensajesComponent } from './components/admin/mensajes/mensajes.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ParametrosComponent } from './components/admin/parametros/parametros.component';
+import { UsuariosComponent } from './components/admin/usuarios/usuarios.component';
+
 
 
 @NgModule({
@@ -44,7 +47,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     RegistroComponent,
     AccesoComponent,
     AyudaComponent,
-    RondaComponent,
+    //RondaComponent,
     AdminComponent,
     HomeComponent,
     NavbarComponent,
@@ -54,7 +57,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     GraficosComponent,
     DescargasComponent,
     ConsultarComponent,
-    MensajesComponent
+    MensajesComponent,
+    ParametrosComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,

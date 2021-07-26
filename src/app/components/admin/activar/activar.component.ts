@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { EstadoModel } from 'src/app/models/estado.model';
 
 import Swal from 'sweetalert2';
+import { GeneralService } from 'src/app/services/general.service';
 
 @Component({
   selector: 'app-activar',
@@ -15,16 +16,18 @@ export class ActivarComponent implements OnInit {
   estadoActual: any;
   constructor(
     private auth: AuthService,
+    private general: GeneralService
   ) {}
 
   ngOnInit(): void {
     this.cargaEstado();
   }
 
-  cargaEstado(){
-    this.auth.getEstadoRonda().then((a)=>{
-      this.estadoActual = this.auth.estadoRonda;
-    });
+  async cargaEstado(){
+    await this.general.getEstado().subscribe((resp:any)=>{
+      this.estadoActual = resp["estado"][0];
+      console.log(this.estadoActual);      
+    })
   }
 
   activaRonda(){
@@ -36,12 +39,20 @@ export class ActivarComponent implements OnInit {
       showConfirmButton: true,
     }).then((acepto)=>{
       if(acepto.value){ 
-        if(this.estadoActual =='Activo'){
-          this.auth.setEstadoRonda('Inactivo');     
+        if(this.estadoActual.Nombre){
+          this.estadoActual.Nombre = false;
+          this.general.updateEstado(this.estadoActual).subscribe((resp: any)=>{
+            console.log(resp);
+            this.cargaEstado();            
+          });     
         }else{
-          this.auth.setEstadoRonda('Activo'); 
-        }   
-        this.cargaEstado(); 
+          this.estadoActual.Nombre = true; 
+          this.general.updateEstado(this.estadoActual).subscribe((resp: any)=>{
+            console.log(resp); 
+            this.cargaEstado();           
+          });
+        }           
+         
       }else{
         return;
       }

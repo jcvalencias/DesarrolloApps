@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RondaModel } from 'src/app/models/ronda.model';
+import { GeneralService } from 'src/app/services/general.service';
 
 @Component({
   selector: 'app-admin',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  listaRondas: RondaModel[] =[];
+  constructor(
+    private general: GeneralService,
+  ) { }
 
   ngOnInit(): void {
+    this.general.getRondas().subscribe((resp: any)=>{
+      this.listaRondas = resp["rondas"];
+      console.log(this.listaRondas);
+    })
   }
 
 }

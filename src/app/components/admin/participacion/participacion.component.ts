@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RondaModel } from 'src/app/models/ronda.model';
 import { UsuarioModel } from 'src/app/models/usuario.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { GeneralService } from 'src/app/services/general.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -14,7 +15,7 @@ export class ParticipacionComponent implements OnInit {
   rondaLista : RondaModel[]=[];
   usuarioLista: UsuarioModel[]=[];
   participantes : number = 0;
-  totalUsuarios: number = 0;
+  totalUsuarios: number = 1;
   siParticipa: any[]=[];
   participa: any[]=[];
   idUsuariosLista: any[]=[];
@@ -22,54 +23,72 @@ export class ParticipacionComponent implements OnInit {
   listaUser: any[]=[];
   year = new Date().getFullYear();
 
+  pushIds: any[] =[];
+  numero: any;
+  mensaje: any;
+
   title= 'exportExcel';
   fileName = 'Usuarios Sin Registro.xlsx'
 
   constructor(
-    private auth : AuthService    
+    private auth : AuthService,
+    private general: GeneralService,   
   ) {}
 
   ngOnInit(): void {
     this.usuarioLista.length =0;
-    this.consulta(); 
-       
+    this.consulta();        
   }
 
   diferenciaDeArreglos(arr1: any[], arr2: any[]){
     return arr1.filter(elemento => arr2.indexOf(elemento) == -1);
-    }
+  }
 
   consulta(){
     this.usuarioLista.length = 0;
-    this.auth.getUser().then(resp=>{      
-      this.usuarioLista = this.auth.listaUser;
-    });
-    this.auth.getRonda().then(()=>{    
+    this.general.getUsers().subscribe((resp:any)=>{
+      this.usuarioLista = resp["users"];     
+    })
+    this.general.getRondas().subscribe((resp:any)=>{
+      this.rondaLista = resp["rondas"];
       for(let user of this.usuarioLista){
-        this.idUsuariosLista.push(user.CodigoMostrar);
-        this.totalUsuarios ++;        
-        for(let ronda of this.auth.listaRonda){        
-          if(ronda.Semana == this.auth.numeroSemana && ronda.Year == this.year){           
-            if(user.CodigoMostrar == ronda.Usuario && user.Estado == "Activo"){
-              this.participa.push(user.CodigoMostrar);
+        if(user.estado == true){
+          this.idUsuariosLista.push(user.codigoMostrar);
+          this.totalUsuarios ++;
+          for(let ronda of this.rondaLista){        
+            if(ronda.semana == this.auth.numeroSemana && ronda.year == this.year){           
+              if(user.codigoMostrar == ronda.usuario){
+                this.participa.push(user.codigoMostrar);
+              }
             }
           }
-        }
-      }
+        } 
+      }      
       this.datos();
     })
   }
 
-  datos(){
+  datos(){    
     this.siParticipa = Array.from(new Set(this.participa));
     this.participantes= this.siParticipa.length; 
     this.noParticipa = this.diferenciaDeArreglos(this.idUsuariosLista, this.siParticipa);    
     for(let user of this.usuarioLista){
       for(let p of this.noParticipa){
-        if(user.CodigoMostrar != 'Bog001' && p == user.CodigoMostrar){
-          this.listaUser.push(user);          
+        if(user.codigoMostrar != 'Bog010' && p == user.codigoMostrar){          
+          this.listaUser.push(user);
+          if(user.pushUserId != undefined){
+            this.pushIds.push(user.pushUserId);
+          }                
         }
       }      
+    }            
+  }
+
+  async mensajeSegmentado(){
+    for(let pushId of this.pushIds){     
+      await this.auth.enviarNotiSegmentado(this.mensaje,pushId).subscribe(resp=>{   
+        this.numero = resp.recipients;   
+      });
     }    
   }
 

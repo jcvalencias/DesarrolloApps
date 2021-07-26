@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
+import { GeneralService } from 'src/app/services/general.service';
 //import 'moment/locale/pt-br';
 @Component({
   selector: 'app-descargas',
@@ -22,7 +23,8 @@ export class DescargasComponent implements OnInit {
   fileName = 'Ronda Semanal.xlsx'
 
   constructor(
-    private auth: AuthService
+    private auth: AuthService,
+    private general : GeneralService
   ) { }
 
   ngOnInit(): void {    
@@ -30,10 +32,18 @@ export class DescargasComponent implements OnInit {
   }
 
   cargaInicial(){
-    this.auth.getRonda().then(resp=>{      
-      this.listaYear= this.auth.years;
-      this.semanaLista = this.auth.listaSemanas;
-    })        
+    let anio:any=[];
+    let sem: any=[]; 
+    this.general.getRondas().subscribe((resp: any)=>{
+      for(let dato of resp["rondas"]){
+        anio.push(dato.year);
+        sem.push(dato.semana);
+      }
+      this.listaYear = Array.from(new Set(anio));      
+      this.listaYear.sort((a: any,b: any) =>a-b);
+      this.semanaLista = Array.from(new Set(sem));
+      this.semanaLista.sort((a: any,b: any) =>a-b); 
+    })      
   }
 
   cargaExcel(){
@@ -52,13 +62,13 @@ export class DescargasComponent implements OnInit {
         icon:"success"
       });
     }
-    this.auth.getRondaHistorica().then(()=>{
-      for(let registro of this.auth.listaRondaHistorica){                
-        if(registro.Semana == this.sem && registro.Year == this.anio){
+    this.general.getRondas().subscribe((resp: any)=>{
+      for(let registro of resp["rondas"]){                
+        if(registro.semana == this.sem && registro.year == this.anio){
           this.rondaLista.push(registro);        
         }
       }
-    })    
+    })       
   }
 
   exportToExcel(): void{

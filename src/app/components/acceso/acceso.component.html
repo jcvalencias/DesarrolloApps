@@ -6,12 +6,12 @@
 <div class="modal-body">
     <form (ngSubmit) = "login(formLogin)" #formLogin = "ngForm">
         <div class="form-group py-1">
-            <input type="email" name="email" class="form-control" placeholder="Digite aqui su correo electrónico" required [(ngModel)]= "usuario.Email">
+            <input type="email" name="email" class="form-control" placeholder="Digite aqui su correo electrónico" required [(ngModel)]= "usuario.email">
         </div>
         <div class="form-group py-1">
-            <input type="password" name="password" minlength="6" class="form-control" placeholder="Digite aqui su contraseña" required [(ngModel)]= "usuario.Password">
+            <input type="password" name="password" minlength="6" class="form-control" placeholder="Digite aqui su contraseña" required [(ngModel)]= "usuario.password">
         </div>                                               
-        <button type="submit" class="btn btn-danger mt-3 w-100" >
+        <button type="submit" class="btn btn-outline-danger mt-3 w-100" >
             <span style="font-size: 20px;">Validar Usuario</span>            
         </button>
         <div class="form-group py-1">
@@ -19,9 +19,9 @@
                 <span>¿Olvido su contraseña? <a routerLink="/olvideClave"> Recuperela aqui</a></span>             
             </label>
             <br>
-            <label>
+            <!-- <label>
                 <span>¿No tiene cuenta? <a routerLink="/registro"> Registrese aqui</a></span>  
-            </label>
+            </label> -->
         </div>                     
     </form>                          
 </div>

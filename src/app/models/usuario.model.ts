@@ -1,14 +1,15 @@
 
 export class UsuarioModel{
-    id: any = '';
-    Nombre: string = '';
-    Apellido: string = '';
-    Email: string = '';
-    Celular: string = '';
-    Granja: string = '';
-    Localizacion: string ='';
-    Password: string = '';
-    CodigoMostrar: string = '';
-    Estado= 'Activo';
-    IdUsuario: string = '';
+    _id: any = '';
+    nombre: string = '';
+    apellido: string = '';
+    email: string = '';
+    celular: string = '';
+    granja: string = '';
+    localizacion: string ='';
+    password: string = '';
+    codigoMostrar: string = '';
+    estado: boolean = true;
+    idUsuario: string = '';
+    pushUserId: string = '';
 }

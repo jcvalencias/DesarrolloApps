@@ -6,20 +6,20 @@
 <div class="modal-body">
     <form (ngSubmit) = "recuperar(formContrasena)" #formContrasena = "ngForm">
         <div class="form-group py-1">
-            <input type="email" name="email" email class="form-control" placeholder="Digite aqui su correo electrónico" required [(ngModel)]="usuario.Email">
+            <input type="email" name="email" email class="form-control" placeholder="Digite aqui su correo electrónico" required [(ngModel)]="usuario.email">
         </div>
-        <button type="submit" class="btn btn-danger mt-3 w-100">
+        <button type="submit" class="btn btn-outline-danger mt-3 w-100">
             <span style="font-size: 20px;"> Enviar</span>
         </button>
-        <button type="button" class="btn btn-secondary mt-3 w-100" style="font-weight:lighter !important; font-size: 20px;" routerLink="/acceso">
+        <button type="button" class="btn btn-outline-secondary mt-3 w-100" routerLink="/acceso">
             <span style="font-size: 20px;"> Cancelar</span>
         </button>
     </form>
-    <div class="form-group py-1">
+    <!-- <div class="form-group py-1">
         <label>
             <span>¿No tiene cuenta? <a routerLink="/registro"> Registrese aqui</a></span>  
         </label>
-    </div>                             
+    </div> -->                             
 </div>
 
 

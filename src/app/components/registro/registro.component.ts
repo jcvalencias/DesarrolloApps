@@ -30,7 +30,7 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit(){
     this.cargando=true;     
-    this.usuarioLista = this.auth.listaUser;    
+    this.usuarioLista = this.auth.listaIdUser;    
     this.mercadoLista = this.auth.listaMercados;
     this.cargando = false;     
   }
@@ -77,17 +77,17 @@ export class RegistroComponent implements OnInit {
     let indexCodigo;
     let numCodigo;
     let aux: boolean = true;  
-    this.usuario.Nombre = this.formRegistro.controls.nombre.value;
-    this.usuario.Apellido = this.formRegistro.controls.apellido.value;
-    this.usuario.Granja = this.formRegistro.controls.granja.value;
-    this.usuario.Localizacion = this.formRegistro.controls.localizacion.value;
-    this.usuario.Celular = this.formRegistro.controls.celular.value;
-    this.usuario.Email = this.formRegistro.controls.email.value;
-    this.usuario.Password = this.formRegistro.controls.password.value;
+    this.usuario.nombre = this.formRegistro.controls.nombre.value;
+    this.usuario.apellido = this.formRegistro.controls.apellido.value;
+    this.usuario.granja = this.formRegistro.controls.granja.value;
+    this.usuario.localizacion = this.formRegistro.controls.localizacion.value;
+    this.usuario.celular = this.formRegistro.controls.celular.value;
+    this.usuario.email = this.formRegistro.controls.email.value;
+    this.usuario.password = this.formRegistro.controls.password.value;
     if(this.usuarioLista.length){      
       for (let user of this.usuarioLista) {               
-        if(user.Localizacion == this.formRegistro.controls.localizacion.value){                    
-          listaCodigos.push(user.CodigoMostrar);
+        if(user.localizacion == this.formRegistro.controls.localizacion.value){                    
+          listaCodigos.push(user.codigoMostrar);
           aux = false;                    
         }      
       }
@@ -99,9 +99,8 @@ export class RegistroComponent implements OnInit {
     }else{
       codigoAlmacenado = (this.formRegistro.controls.localizacion.value).slice(0,3) + '001';
     }   
-    this.usuario.CodigoMostrar = codigoAlmacenado;     
+    this.usuario.codigoMostrar = codigoAlmacenado;     
     this.auth.crear(this.usuario).then(resp=>{
-      console.log('respuesta', resp);
       Swal.close();      
       this.router.navigateByUrl('/acceso');
     })     

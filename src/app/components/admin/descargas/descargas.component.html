@@ -40,15 +40,20 @@
         <tbody>
             <tr *ngFor="let registro of rondaLista; let i = index">
                 <td>{{i+1}}</td>
-                <td>{{registro.UltimoDia}}</td>
-                <td>{{registro.Usuario}}</td>
-                <td>{{registro.Producto}}</td>
-                <td>{{registro.Cantidad}}</td>
-                <td>{{registro.Precio}}</td>
-                <td>{{registro.Peso}}</td>
-                <td>{{registro.Mercado}}</td>
-                <td>{{registro.Entrega}}</td>
+                <td>{{registro.ultimoDia}}</td>
+                <td>{{registro.usuario}}</td>
+                <td>{{registro.producto}}</td>
+                <td>{{registro.cantidad}}</td>
+                <td>{{registro.precio}}</td>
+                <td>{{registro.peso}}</td>
+                <td>{{registro.mercado}}</td>
+                <td>{{registro.entrega}}</td>
             </tr>                                
         </tbody>
     </table>     
 </fieldset> 
+<div class="container my-1 py-2">
+    <button type="button" class="btn btn-outline-danger mt-3 w-100" routerLink="/admin">
+        Atras
+    </button>
+</div>

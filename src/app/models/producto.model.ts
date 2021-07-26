@@ -1,4 +1,6 @@
 export class ProductoModel{
-    id: string= '';
     Nombre: string= '';
+    Maximo: number = 0;
+    Minimo: number = 0;
+    _id: string = '';
 }

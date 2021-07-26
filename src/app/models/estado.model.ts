@@ -1,4 +1,4 @@
 export class EstadoModel{
-    id: string= '';
-    Estado: string= '';
+    _id: string= '';
+    Nombre: boolean= true;
 }

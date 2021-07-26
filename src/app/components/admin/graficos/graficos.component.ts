@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { AuthService } from 'src/app/services/auth.service';
+import { GeneralService } from 'src/app/services/general.service';
 
 @Component({
   selector: 'app-graficos',
@@ -68,6 +69,7 @@ export class GraficosComponent implements OnInit {
   constructor(
     private auth : AuthService,
     private router: Router,
+    private general: GeneralService
   ) { }
   
   ngOnInit(): void {
@@ -78,10 +80,13 @@ export class GraficosComponent implements OnInit {
   }
 
   cargarLocalizacion(){
-    this.auth.getLocalizacion().then(resp=>{
-      this.listaMercados= this.auth.listaMercados;
-      this.barChartLabels= this.listaMercados
-    });
+    this.general.getMercados().subscribe((resp: any)=>{
+      this.listaMercados = resp["mercados"];      
+      for(let list of this.listaMercados){
+        this.barChartLabels.push(list.Nombre)
+        this.barChartLabels.sort();
+      }
+    }); 
   }
 
   consultarRondaActual(){
@@ -101,61 +106,62 @@ export class GraficosComponent implements OnInit {
     this.conteoPieCos=0;
     this.conteoCalienteCos=0;
     this.conteoFriaCos=0;
-    this.auth.getRondaHistorica().then(resp=>{
-      for(let registro of this.auth.listaRondaHistorica){
-        if(registro.Semana== this.numeroSemana && registro.Year == this.year){
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Bogotá'){
+    this.general.getRondas().subscribe((resp: any)=>{ 
+    //console.log(resp);    
+      for(let registro of resp["rondas"]){                        
+        if(registro.semana == this.numeroSemana && registro.year == this.year){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Bogotá'){
             this.conteoPieBog ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Bogotá'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Bogotá'){
             this.conteoCalienteBog ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Bogotá'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Bogotá'){
             this.conteoFriaBog ++;
           }
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Antioquia'){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Antioquia'){
             this.conteoPieAnt ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Antioquia'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Antioquia'){
             this.conteoCalienteAnt ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Antioquia'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Antioquia'){
             this.conteoFriaAnt ++;
           }
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Valle del Cauca'){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Valle del Cauca'){
             this.conteoPieVal ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Valle del Cauca'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Valle del Cauca'){
             this.conteoCalienteVal ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Valle del Cauca'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Valle del Cauca'){
             this.conteoFriaVal ++;
           }
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Eje Cafetero'){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Eje Cafetero'){
             this.conteoPieEje ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Eje Cafetero'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Eje Cafetero'){
             this.conteoCalienteEje ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Eje Cafetero'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Eje Cafetero'){
             this.conteoFriaEje ++;
           }
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Costa Atlántica'){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Caribe Norte'){
             this.conteoPieCos ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Costa Atlántica'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Caribe Norte'){
             this.conteoCalienteCos ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Costa Atlántica'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Caribe Norte'){
             this.conteoFriaCos ++;
-          }           
-          this.barChartData= [
-            { data: [this.conteoPieAnt, this.conteoPieEje, this.conteoPieVal, this.conteoPieCos, this.conteoPieBog], label: 'Cerdo en Pie' },
-            { data: [this.conteoCalienteAnt, this.conteoCalienteEje, this.conteoCalienteVal, this.conteoCalienteCos, this.conteoCalienteBog], label: 'Canal Caliente' },
-            { data: [this.conteoFriaAnt, this.conteoFriaEje, this.conteoFriaVal, this.conteoFriaCos, this.conteoFriaBog], label: 'Canal Fría' }
-          ];        
-        }
-      }      
+          }                  
+        }        
+      }     
+      this.barChartData= [
+        { data: [this.conteoPieAnt, this.conteoPieBog, this.conteoPieCos, this.conteoPieEje, this.conteoPieVal], label: 'Cerdo en Pie' },
+        { data: [this.conteoCalienteAnt, this.conteoCalienteBog, this.conteoCalienteCos, this.conteoCalienteEje, this.conteoCalienteVal], label: 'Canal Caliente' },
+        { data: [this.conteoFriaAnt, this.conteoFriaBog, this.conteoFriaCos, this.conteoFriaEje, this.conteoFriaVal], label: 'Canal Fría' }
+      ];      
     }) 
   }
 
@@ -175,62 +181,61 @@ export class GraficosComponent implements OnInit {
     this.conteoPieCosP=0;
     this.conteoCalienteCosP=0;
     this.conteoFriaCosP=0;
-    this.auth.getRondaHistorica().then(resp=>{
-      for(let registro of this.auth.listaRondaHistorica){
-        if(registro.Semana == (this.numeroSemana-1) && registro.Year == this.year){
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Bogotá'){
+    this.general.getRondas().subscribe((resp:any)=>{
+      for(let registro of resp["rondas"]){
+        if(registro.semana == (this.numeroSemana-1) && registro.year == this.year){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Bogotá'){
             this.conteoPieBogP ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Bogotá'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Bogotá'){
             this.conteoCalienteBogP ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Bogotá'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Bogotá'){
             this.conteoFriaBogP ++;
           }
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Antioquia'){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Antioquia'){
             this.conteoPieAntP ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Antioquia'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Antioquia'){
             this.conteoCalienteAntP ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Antioquia'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Antioquia'){
             this.conteoFriaAntP ++;
           }
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Valle del Cauca'){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Valle del Cauca'){
             this.conteoPieValP ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Valle del Cauca'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Valle del Cauca'){
             this.conteoCalienteValP ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Valle del Cauca'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Valle del Cauca'){
             this.conteoFriaValP ++;
           }
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Eje Cafetero'){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Eje Cafetero'){
             this.conteoPieEjeP ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Eje Cafetero'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Eje Cafetero'){
             this.conteoCalienteEjeP ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Eje Cafetero'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Eje Cafetero'){
             this.conteoFriaEjeP ++;
           }
-          if(registro.Producto == 'Cerdo en Pie' && registro.Mercado == 'Costa Atlántica'){
+          if(registro.producto == 'Cerdo en Pie' && registro.mercado == 'Caribe Norte'){
             this.conteoPieCosP ++;
           }
-          if(registro.Producto == 'Canal Caliente' && registro.Mercado == 'Costa Atlántica'){
+          if(registro.producto == 'Canal Caliente' && registro.mercado == 'Caribe Norte'){
             this.conteoCalienteCosP ++;
           }
-          if(registro.Producto == 'Canal Fría' && registro.Mercado == 'Costa Atlántica'){
+          if(registro.producto == 'Canal Fría' && registro.mercado == 'Caribe Norte'){
             this.conteoFriaCosP ++;
-          }          
-          this.barChartDataP= [
-            { data: [this.conteoPieAntP, this.conteoPieEjeP, this.conteoPieValP, this.conteoPieCosP, this.conteoPieBogP], label: 'Cerdo en Pie' },
-            { data: [this.conteoCalienteAntP, this.conteoCalienteEjeP, this.conteoCalienteValP, this.conteoCalienteCosP, this.conteoCalienteBogP], label: 'Canal Caliente' },
-            { data: [this.conteoFriaAntP, this.conteoFriaEjeP, this.conteoFriaValP, this.conteoFriaCosP, this.conteoFriaBogP], label: 'Canal Fría' }
-          ];        
+          }                
         }
       }
-      
+      this.barChartDataP= [
+        { data: [this.conteoPieAntP, this.conteoPieBogP, this.conteoPieCosP, this.conteoPieEjeP, this.conteoPieValP], label: 'Cerdo en Pie' },
+        { data: [this.conteoCalienteAntP, this.conteoCalienteBogP, this.conteoCalienteCosP, this.conteoCalienteEjeP, this.conteoCalienteValP], label: 'Canal Caliente' },
+        { data: [this.conteoFriaAntP, this.conteoFriaBogP, this.conteoFriaCosP, this.conteoFriaEjeP, this.conteoFriaValP], label: 'Canal Fría' }
+      ];
     }) 
   }
 
