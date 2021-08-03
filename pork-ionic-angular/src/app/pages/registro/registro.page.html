@@ -1,0 +1,51 @@
+<app-header></app-header>
+
+<ion-content class="alto container">    
+    <ion-grid>
+        <ion-row class="ion-align-items-center">
+            <ion-col size="12" size-lg="6" size-md="6" class="ion-align-self-center">
+                <ion-item lines ="none">
+                    <h3 class="fondo">Registro de usuarios</h3>
+                </ion-item>
+                <ion-card>
+                    <form [formGroup]="formRegistro" (ngSubmit)="guardar()">
+                        <ion-list>
+                            <ion-item>
+                                <ion-label position="stacked">Correo Electrónico <a class="obligatorio">*</a></ion-label>
+                                <ion-input type="email" 
+                                            formControlName ="email">
+                                        </ion-input>
+                            </ion-item>
+                            <div *ngFor="let error of errorMensaje.email">
+                                <ng-container *ngIf="email.hasError(error.type) && (email.dirty || email.touched)">
+                                    <small class="error-message">{{error.message}}</small>
+                                </ng-container>                    
+                            </div>
+                            <ion-item>
+                                <ion-label position="stacked">Contraseña <a class="obligatorio">*</a></ion-label>
+                                <ion-input type="password" 
+                                            formControlName ="password">
+                                        </ion-input>
+                            </ion-item>
+                            <div *ngFor="let error of errorMensaje.password">
+                                <ng-container *ngIf="password.hasError(error.type) && (password.dirty || password.touched)">
+                                    <small class="error-message">{{error.message}}</small>
+                                </ng-container>                    
+                            </div> 
+                            <ion-button expand="block" shape="round" type="submit" class="margenTop">
+                                Continuar
+                                <ion-icon slot="end" name="create"></ion-icon>
+                            </ion-button>  
+                            <ion-button expand="block" shape="round" type="submit" color="medium" [routerLink]="['/inicio']">
+                                Cancelar                                
+                            </ion-button>              
+                        </ion-list>
+                    </form>
+                </ion-card>
+                <div style="text-align: center;">
+                    <small>Tienes una cuenta? <a [routerLink]= "['/login']"> Ingresa aquí</a> </small>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>      
+</ion-content>

@@ -1,0 +1,9 @@
+.nav{    
+    background-color: rgb(240, 34, 82);
+    padding: 10px 0px; 
+    margin: 0px 1%;
+    border-radius: 5px;
+}
+.nav-link{
+    padding: 5px 0px;
+}

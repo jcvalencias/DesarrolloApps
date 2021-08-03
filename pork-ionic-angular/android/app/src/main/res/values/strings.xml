@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Ronda Semanal</string>
+    <string name="title_activity_main">Ronda Semanal</string>
+    <string name="package_name">app.web.rondasemanal.ionic</string>
+    <string name="custom_url_scheme">app.web.rondasemanal.ionic</string>
+</resources>

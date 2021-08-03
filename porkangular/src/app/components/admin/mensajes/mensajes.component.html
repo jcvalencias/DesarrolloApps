@@ -1,0 +1,23 @@
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Enviar mensaje a todos los usuarios</legend>
+    <div class="container my-1 py-2">
+        <textarea class="form-control mt-2" name="mensaje" placeholder="Ingrese el mensaje" [(ngModel)] = "mensaje" cols="80" rows="4"></textarea>        
+    </div> 
+    <div class="container my-1 py-2">
+        <button class="form-control btn btn-primary mt-2" (click)="sendMensaje()">
+            Enviar mensaje
+        </button>
+    </div>                      
+    <div class="mt-3 mx-3">
+        <div>
+            <span style="width: 100%;">Usuarios que han recibido el mensaje: </span>
+            <input type="tetx" class="form-control" disabled [(ngModel)]= 'numero'>
+        </div>                         
+    </div>    
+</fieldset>
+<div class="container my-1 py-2">
+    <button type="button" class="btn btn-outline-danger mt-3 w-100" routerLink="/admin">
+        Atras
+    </button>
+</div>
+

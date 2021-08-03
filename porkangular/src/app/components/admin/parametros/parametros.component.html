@@ -1,0 +1,201 @@
+<div class="container my-1 py-2">
+    <button type="button" class="form-control btn btn-secondary mt-3 w-100" style="font-weight:lighter !important; font-size: 20px;" routerLink="/admin">
+        Atras
+    </button>
+</div>
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Productos</legend>
+    <div class="container">
+        <!-- Button to Open the Modal -->
+        <button (click)="abrirModalP()" data-toggle="modal" data-target="#exampleModalP" type="button" class="btn btn-primary my-4">
+            Crear <i class="fas fa-plus"></i>
+            </button>
+    
+            <!-- The Modal -->
+            <div class="modal" id="exampleModalP">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+    
+                    <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{tituloModalP}}</h4>
+                            <button type="button" class="close" data-dismiss="modal">X</button>
+                        </div>
+    
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="my-4">
+                                <label for="nombre">Producto</label>
+                                <input [(ngModel)] = "parametroP.Nombre" type="text" class="form-control" id="nombre" placeholder="Nombre del producto">
+                            </div>
+                            <div class="my-4">
+                                <label for="email">Minimo</label>
+                                <input [(ngModel)] = "parametroP.Minimo" type="number" class="form-control" id="minimo" placeholder="Valor mínimo">
+                            </div>
+                            <div class="my-4">
+                                <label for="pais">Maximo</label>
+                                <input [(ngModel)] = "parametroP.Maximo" type="number" class="form-control" id="maximo" placeholder="Valor máximo">
+                            </div>                    
+                        </div>
+    
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button (click)="guardarP(parametroP)" type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    <!-- tabla productos -->
+      <table class="table mt-2" id="excel-table" style="font-size: 12px;border:2;" >
+            <thead>
+                <tr>                                    
+                    <th scope="col">Producto</th>                                    
+                    <th scope="col">Minimo</th>
+                    <th scope="col">Maximo</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Eliminar</th>                              
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let producto of listaProductos">
+                    <td>{{producto.Nombre}}</td>
+                    <td>{{producto.Minimo}}</td>
+                    <td>{{producto.Maximo}}</td>
+                    <td>
+                        <i (click)="modificarP = false; abrirModalP(producto)" data-toggle="modal" data-target="#exampleModalP" class="fas fa-edit"></i>
+                    </td>
+                    <td>
+                        <i (click)="eliminarP(producto)" class="fas fa-trash-alt"></i>
+                    </td> 
+                </tr>                                
+            </tbody>
+        </table> 
+    </div>    
+</fieldset>
+
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Lugares de entrega</legend>
+    <div class="container">
+        <!-- Button to Open the Modal -->
+        <button (click)="abrirModalE()" data-toggle="modal" data-target="#exampleModalE" type="button" class="btn btn-primary my-4">
+            Crear <i class="fas fa-plus"></i>
+            </button>
+    
+            <!-- The Modal -->
+            <div class="modal" id="exampleModalE">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+    
+                    <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{tituloModalE}}</h4>
+                            <button type="button" class="close" data-dismiss="modal">X</button>
+                        </div>
+    
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="my-4">
+                                <label for="lugar">Lugar</label>
+                                <input [(ngModel)] = "parametroE.Nombre" type="text" class="form-control" id="lugar" placeholder="Nuevo lugar de entrega">
+                            </div>                                              
+                        </div>
+    
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button (click)="guardarE(parametroE)" type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    <!-- tabla lugares de entrega -->
+      <table class="table mt-2" id="excel-table" style="font-size: 12px;border:2;" >
+            <thead>
+                <tr>                                    
+                    <th scope="col">Lugar</th>                     
+                    <th scope="col">Editar</th>
+                    <th scope="col">Eliminar</th>                              
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let entrega of listaEntrega">
+                    <td>{{entrega.Nombre}}</td>
+                    <td>
+                        <i (click)="modificarE = false; abrirModalE(entrega)" data-toggle="modal" data-target="#exampleModalE" class="fas fa-edit"></i>
+                    </td>
+                    <td>
+                        <i (click)="eliminarE(entrega)" class="fas fa-trash-alt"></i>
+                    </td> 
+                </tr>                                
+            </tbody>
+        </table> 
+    </div>    
+</fieldset>
+
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Mercados</legend>
+    <div class="container">
+        <!-- Button to Open the Modal -->
+        <button (click)="abrirModalM()" data-toggle="modal" data-target="#exampleModalM" type="button" class="btn btn-primary my-4">
+            Crear <i class="fas fa-plus"></i>
+            </button>
+    
+            <!-- The Modal -->
+            <div class="modal" id="exampleModalM">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+    
+                    <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{tituloModalM}}</h4>
+                            <button type="button" class="close" data-dismiss="modal">X</button>
+                        </div>
+    
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="my-4">
+                                <label for="mercado">Nombre mercado</label>
+                                <input [(ngModel)] = "parametroM.Nombre" type="text" class="form-control" id="mercado" placeholder="Nombre mercado">
+                            </div>                                              
+                        </div>
+    
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button (click)="guardarM(parametroM)" type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    <!-- tabla mercados -->
+      <table class="table mt-2" id="excel-table" style="font-size: 12px;border:2;" >
+            <thead>
+                <tr>                                    
+                    <th scope="col">Nombre mercado</th>                     
+                    <th scope="col">Editar</th>
+                    <th scope="col">Eliminar</th>                              
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let mercado of listaMercados">
+                    <td>{{mercado.Nombre}}</td>
+                    <td>
+                        <i (click)="modificarM = false; abrirModalM(mercado)" data-toggle="modal" data-target="#exampleModalM" class="fas fa-edit"></i>
+                    </td>
+                    <td>
+                        <i (click)="eliminarM(mercado)" class="fas fa-trash-alt"></i>
+                    </td> 
+                </tr>                                
+            </tbody>
+        </table> 
+    </div>    
+</fieldset>
+<div class="container my-1 py-2">
+    <button type="button" class="btn btn-outline-danger mt-3 w-100" routerLink="/admin">
+        Atras
+    </button>
+</div>

@@ -1,0 +1,190 @@
+<div class="container">
+    <div class="container text-center mt-2 fondo" style="height: 35px !important;">
+        <h2 >Formulario de Registro</h2>
+    </div>
+</div>
+    <div class="modal-body">
+        <form [formGroup]="formRegistro" (ngSubmit)="guardar()">
+            <div class="form-group py-1">
+                <label class="etiqueta" >Nombre<a class="obligatorio">*</a></label>
+                <input  class="form-control"
+                        type="text"
+                        placeholder="Ingrese aqui su nombre"
+                        formControlName="nombre"
+                        [class.is-invalid]= "campoNoValido('nombre')">
+                <small *ngIf="campoNoValido('nombre')" class="text-danger">
+                    Campo obligatorio
+                </small>
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Apellido<a class="obligatorio">*</a></label>
+                <input  class="form-control" 
+                        type="text"                
+                        placeholder="Ingrese aqui su apellido"
+                        formControlName="apellido"
+                        [class.is-invalid]= "campoNoValido('apellido')">
+                <small *ngIf="campoNoValido('apellido')" class="text-danger">
+                    Campo obligatorio
+                </small>
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Número celular<a class="obligatorio">*</a><a class="info">(10 números)</a></label>
+                <input  class="form-control"
+                        type="number"                      
+                        placeholder="Ingrese aqui su número celular"
+                        formControlName="celular"
+                        [class.is-invalid]= "campoNoValido('celular')">
+                <small *ngIf="campoNoValido('celular')" class="text-danger">
+                    Campo obligatorio de 10 numeros
+                </small>
+                    
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Nombre de la granja<a class="obligatorio">*</a></label>
+                <input  class="form-control"    
+                        type="text"  
+                        placeholder="Ingrese aqui el nombre de la granja" 
+                        formControlName="granja"
+                        [class.is-invalid]= "campoNoValido('granja')">
+                <small *ngIf="campoNoValido('granja')" class="text-danger">
+                    Campo obligatorio
+                </small>
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Localización<a class="obligatorio">*</a></label>                
+                    <select class="selectores_reg w-100"
+                            formControlName="localizacion"
+                            [class.is-invalid]= "campoNoValido('localizacion')">
+                        <option selected disabled value="" >Seleccione una ubicación...</option>
+                        <option value="Antioquia">Antioquia</option>
+                        <option value="Eje Cafetero">Eje Cafetero</option>
+                        <option value="Valle del Cauca">Valle del Cauca</option>
+                        <option value="Caribe Norte">Caribe Norte</option>
+                        <option value="Bogotá">Antioquia</option>
+                    </select>
+                    <small *ngIf="campoNoValido('localizacion')" class="text-danger">
+                        Campo obligatorio
+                    </small>                            
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Correo electrónico<a class="obligatorio">*</a></label>
+                <input  class="form-control" 
+                        type="email"
+                        placeholder="Ingrese aqui su correo electrónico" 
+                        formControlName="email"
+                        [class.is-invalid]= "campoNoValido('email')">
+                <small *ngIf="campoNoValido('email')" class="text-danger">
+                    Campo obligatorio
+                </small>
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Contraseña<a class="obligatorio">*</a><a class="info">(Mínimo 6 carácteres alfanuméricos)</a></label>
+                <input  class="form-control"
+                        type="password"  
+                        placeholder="Ingrese aqui su contraseña"
+                        formControlName="password"
+                        [class.is-invalid]= "campoNoValido('password')">
+                <small *ngIf="campoNoValido('password')" class="text-danger">
+                    Campo obligatorio minimo 6 caracteres
+                </small>
+            </div>
+            <div >                            
+                <label class="etiqueta">
+                    <input type="checkbox" id="signup-check" style="width: 25px; height: 25px;" required>
+                    <a href="https://www.miporkcolombia.co/politica-de-privacidad/" style="color: black;"> Acepto la política de privacidad y proteccion de datos personales de Porkcolombia F.N.P.</a>
+                    <a class="obligatorio">*</a>
+                </label>
+            </div>
+            <div >
+                <button type="submit" class="btn btn-outline-danger mt-3 w-100">
+                    Registrar
+                </button>
+            </div> 
+            <div>
+                <a routerLink="/acceso" class="txt1">
+                    ¿Ya tienes cuenta? / Ingresar
+                </a>
+            </div>           
+        </form>
+    </div>
+
+
+
+<!-- <div class="contenedor">
+    <div class="container text-center mt-2">
+        <h4>Formulario de Registro</h4>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)= "crearUsuario(formUsuario)" #formUsuario = "ngForm">
+            <div class="form-group py-1">
+                <label class="etiqueta" >Nombre<a class="obligatorio">*</a></label>
+                <input 
+                type="text"
+                name="nombre" 
+                minlength="2" 
+                [class.is-invalid] = "nombre.invalid && nombre.touched"
+                class="form-control" 
+                placeholder="Ingrese aqui su nombre" 
+                required 
+                [(ngModel)] = "usuario.nombre"
+                #nombre = "ngModel"
+                >
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Apellido<a class="obligatorio">*</a></label>
+                <input type="text" name="apellido" minlength="2" class="form-control" placeholder="Ingrese aqui su apellido" required [(ngModel)] = "usuario.apellido">
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Número celular<a class="obligatorio">*</a><a class="info">(10 números)</a></label>
+                <input type="number" name="celular" class="form-control" placeholder="Ingrese aqui su número celular" required [(ngModel)] = "usuario.telefono">
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Nombre de la granja<a class="obligatorio">*</a></label>
+                <input type="text" name="granja" minlength="2" class="form-control" placeholder="Ingrese aqui el nombre de la granja" required [(ngModel)] = "usuario.granja">
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Localización<a class="obligatorio">*</a></label>
+                
+                    <select class="selectores_reg" name="Localizacion" style="width: 100%;" required [(ngModel)] = "usuario.Localizacion">
+                        <option selected disabled value="" >Seleccione una ubicación...</option>
+                        <option *ngFor="let item of mercadoLista " value="{{item.Nombre}}">{{item.Nombre}}</option>
+                    </select>                            
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Correo electrónico<a class="obligatorio">*</a></label>
+                <input 
+                type="email" 
+                name="email" 
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                [class.is-invalid]= "email.invalid && email.touched" 
+                class="form-control" 
+                placeholder="Ingrese aqui su correo electrónico" 
+                required 
+                (ngModel) = "usuario.email"
+                #email ="ngModel">
+            </div>
+            <div class="form-group py-1">
+                <label class="etiqueta" >Contraseña<a class="obligatorio">*</a><a class="info">(Mínimo 6 carácteres alfanuméricos)</a></label>
+                <input type="password" name="password" minlength="6" class="form-control" placeholder="Ingrese aqui su contraseña" required [(ngModel)] = "usuario.password">
+            </div>
+            <div >                            
+                <label class="etiqueta">
+                    <input type="checkbox" id="signup-check" style="width: 25px; height: 25px;" required>
+                    <a href="https://www.miporkcolombia.co/politica-de-privacidad/" style="color: black;"> Acepto la política de privacidad y proteccion de datos personales de Porkcolombia F.N.P.</a>
+                    <a class="obligatorio">*</a>
+                </label>
+            </div>
+            <div >
+                <button type="submit" class="btn btn-danger mt-3 w-100">
+                    <span style="font-size: 20px;"> Registrarse</span>
+                </button>
+            </div> 
+            <div>
+                <a routerLink="/acceso" class="txt1">
+                    ¿Ya tienes cuenta? / Ingresar
+                </a>
+            </div>           
+        </form>
+    </div>
+</div>
+ -->

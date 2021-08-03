@@ -1,0 +1,97 @@
+<app-header></app-header>
+
+<ion-content class="alto container">    
+    <ion-grid>
+        <ion-row class="ion-align-items-center">
+            <ion-col size="12" size-lg="6" size-md="6" class="ion-align-self-center">
+                <ion-item lines ="none">
+                    <h3 class="fondo">Registro de usuarios</h3>
+                </ion-item>
+                <ion-card>
+                    <form [formGroup]="formRegistro" (ngSubmit)="guardar()">
+                        <ion-list>
+                            <ion-item>
+                                <ion-label position="stacked">Nombre <a class="obligatorio">*</a></ion-label>
+                                <ion-input inputmode="text"
+                                            autocapitalize
+                                            formControlName="nombre">
+                                        </ion-input>                            
+                            </ion-item>
+                            <div *ngFor="let error of errorMensaje.nombre">
+                                <ng-container *ngIf="nombre.hasError(error.type) && (nombre.dirty || nombre.touched)">
+                                    <small class="error-message">{{error.message}}</small>
+                                </ng-container>                    
+                            </div>
+                            <ion-item>
+                                <ion-label position="stacked">Apellido <a class="obligatorio">*</a></ion-label>
+                                <ion-input inputmode="text" 
+                                            autocapitalize 
+                                            formControlName ="apellido">
+                                        </ion-input>
+                            </ion-item>
+                            <div *ngFor="let error of errorMensaje.apellido">
+                                <ng-container *ngIf="apellido.hasError(error.type) && (apellido.dirty || apellido.touched)">
+                                    <small class="error-message">{{error.message}}</small>
+                                </ng-container>                    
+                            </div>
+                            <ion-item>
+                                <ion-label position="stacked">Número celular <a class="obligatorio">*</a></ion-label>
+                                <ion-input inputmode="tel" 
+                                            formControlName ="celular">
+                                        </ion-input>
+                            </ion-item>
+                            <div *ngFor="let error of errorMensaje.celular">
+                                <ng-container *ngIf="celular.hasError(error.type) && (celular.dirty || celular.touched)">
+                                    <small class="error-message">{{error.message}}</small>
+                                </ng-container>                    
+                            </div>
+                            <ion-item>
+                                <ion-label position="stacked">Granja <a class="obligatorio">*</a></ion-label>
+                                <ion-input inputmode="text" 
+                                            autocapitalize="" 
+                                            formControlName ="granja">
+                                        </ion-input>
+                            </ion-item>
+                            <div *ngFor="let error of errorMensaje.granja">
+                                <ng-container *ngIf="granja.hasError(error.type) && (granja.dirty || granja.touched)">
+                                    <small class="error-message">{{error.message}}</small>
+                                </ng-container>                    
+                            </div>
+                            <ion-item>
+                                <ion-label position="stacked">Seleccione una localización <a class="obligatorio">*</a></ion-label>
+                                <ion-select class="custom-options" 
+                                            formControlName ="localizacion">
+                                            <ion-select-option *ngFor="let mercado of mercadoLista" value="{{mercado.Nombre}}">{{mercado.Nombre}}</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                            <div *ngFor="let error of errorMensaje.localizacion">
+                                <ng-container *ngIf="localizacion.hasError(error.type) && (localizacion.dirty || localizacion.touched)">
+                                    <small class="error-message">{{error.message}}</small>
+                                </ng-container>                    
+                            </div>
+                            <ion-item>
+                                <ion-checkbox id ="acepto" slot="start"></ion-checkbox>
+                                <a href=" https://www.porkcolombia.co/politica-de-privacidad/" class="href"><small>Acepto la política de privacidad y proteccion de datos personales de Porkcolombia F.N.P. <a class="obligatorio">*</a></small></a>
+                            </ion-item> 
+                            <!-- <div *ngFor="let error of errorMensaje.acepto">
+                                <ng-container *ngIf="acepto.hasError(error.type) && (acepto.dirty || acepto.touched)">
+                                    <small class="error-message">{{error.message}}</small>
+                                </ng-container>                    
+                            </div> -->
+                            <ion-button expand="block" shape="round" type="submit" class="margenTop">
+                                Crear cuenta
+                                <ion-icon slot="end" name="create"></ion-icon>
+                            </ion-button>  
+                            <ion-button expand="block" shape="round" type="button" color="medium" (click)="eliminar()">
+                                Cancelar                                
+                            </ion-button>              
+                        </ion-list>
+                    </form>
+                </ion-card>
+                <div style="text-align: center;">
+                    <small>Tienes una cuenta? <a [routerLink]= "['/login']"> Ingresa aquí</a> </small>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>      
+</ion-content>

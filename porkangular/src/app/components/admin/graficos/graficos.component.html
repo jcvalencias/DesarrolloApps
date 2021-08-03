@@ -1,0 +1,31 @@
+<fieldset class="fieldcontent">
+    <legend class="fieldcontentTitle">Comparativos</legend>
+    <div>
+        <div>
+            <div style="display: block">
+                <canvas baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"        
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+                </canvas>
+            </div>
+            <button class="btn btn-primary my-2 refresh" (click)="consultarRondaActual()">Refrescar</button>
+        </div>
+        <div style="display: block">
+            <canvas baseChart
+            [datasets]="barChartDataP"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"        
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+            </canvas>
+        </div>
+    </div>
+</fieldset>
+<div class="container my-1 py-2">
+    <button type="button" class="btn btn-outline-danger mt-3 w-100" routerLink="/admin">
+        Atras
+    </button>
+</div>

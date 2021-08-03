@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/ronda-precios-historicos",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
